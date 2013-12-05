@@ -53,16 +53,16 @@ public class BigPoint {
 	}
 	
 	public BigInteger getXX(BigInteger input) {
-		BigInteger y2 = modY(input);
-		BigInteger first = y2.subtract(BigInteger.valueOf(1));
+		BigInteger input2 = modInput(input);
+		BigInteger first = input2.subtract(BigInteger.valueOf(1));
 		
 		BigInteger d = BigInteger.valueOf(-121665).multiply(invertPoint(BigInteger.valueOf(121666)));
-		BigInteger xPart = y2.multiply(d).add(BigInteger.valueOf(1));
-		BigInteger second = invertPoint(xPart);
+		BigInteger partSecond = input2.multiply(d).add(BigInteger.valueOf(1));
+		BigInteger second = invertPoint(partSecond);
 		return first.multiply(second);
 	}
 	
-	private BigInteger modY(BigInteger input) {
+	private BigInteger modInput(BigInteger input) {
 		return input.multiply(input);
 	}
 
