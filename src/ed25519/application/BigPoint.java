@@ -68,6 +68,7 @@ public class BigPoint {
 	private BigInteger pruneXX(BigInteger x, BigInteger xx) {
 		BigInteger returnValue = x;
 		//   if (x*x - xx) % q != 0: x = (x*I) % q
+		//if(x.multiply(x).subtract(xx))
 		//   if x % 2 != 0: x = q-x
 		return returnValue;
 	}
