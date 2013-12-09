@@ -11,6 +11,7 @@ public class AllTests {
 		//suite.addTestSuite(CryptoTest.class);
 		suite.addTestSuite(NumberUtilsTest.class);
 		suite.addTestSuite(BigPointTest.class);
+		suite.addTestSuite(ConstantsTest.class);
 		//$JUnit-END$
 		return suite;
 	}

@@ -3,6 +3,7 @@ package ed25519.test;
 import java.math.BigInteger;
 
 import ed25519.application.BigPoint;
+import ed25519.application.Constants;
 import junit.framework.TestCase;
 
 public class BigPointTest extends TestCase {
@@ -28,12 +29,6 @@ public class BigPointTest extends TestCase {
 		assertEquals(expected, actual);
 	}
 	
-	public void testBigPrime() {
-		BigPoint n = new BigPoint();
-		BigInteger expected = new BigInteger("57896044618658097711785492504343953926634992332820282019728792003956564819949");
-		assertEquals(expected, n.getBigPrime());
-	}
-	
 	public void testExpmodfor1and1() {
 		BigPoint n = new BigPoint();
 		BigInteger first = BigInteger.valueOf(1);
@@ -54,7 +49,8 @@ public class BigPointTest extends TestCase {
 	
 	public void testExpmodforHugeand1() {
 		BigPoint n = new BigPoint();
-		BigInteger first = n.getBigPrime().add(BigInteger.valueOf(1));
+		Constants c = new Constants();
+		BigInteger first = c.getBigPrime().add(BigInteger.valueOf(1));
 		BigInteger second = BigInteger.valueOf(1);
 		BigInteger expected = BigInteger.valueOf(1);
 		BigInteger actual = n.expmod(first, second);
@@ -81,7 +77,8 @@ public class BigPointTest extends TestCase {
 
 	public void testExpmodforHugeand2() {
 		BigPoint n = new BigPoint();
-		BigInteger first = n.getBigPrime().divide(BigInteger.valueOf(2));
+		Constants c = new Constants();
+		BigInteger first = c.getBigPrime().divide(BigInteger.valueOf(2));
 		BigInteger second = BigInteger.valueOf(2);
 		BigInteger expected = new BigInteger("43422033463993573283839119378257965444976244249615211514796594002967423614962");
 		BigInteger actual = n.expmod(first, second);
@@ -99,7 +96,8 @@ public class BigPointTest extends TestCase {
 	
 	public void testExpmodforHugeand3() {
 		BigPoint n = new BigPoint();
-		BigInteger first = n.getBigPrime().divide(BigInteger.valueOf(2));
+		Constants c = new Constants();
+		BigInteger first = c.getBigPrime().divide(BigInteger.valueOf(2));
 		BigInteger second = BigInteger.valueOf(3);
 		BigInteger expected = new BigInteger("36185027886661311069865932815214971204146870208012676262330495002472853012468");
 		BigInteger actual = n.expmod(first, second);
@@ -108,7 +106,8 @@ public class BigPointTest extends TestCase {
 
 	public void testExpmodforHugeand4() {
 		BigPoint n = new BigPoint();
-		BigInteger first = n.getBigPrime().divide(BigInteger.valueOf(2));
+		Constants c = new Constants();
+		BigInteger first = c.getBigPrime().divide(BigInteger.valueOf(2));
 		BigInteger second = BigInteger.valueOf(4);
 		BigInteger expected = new BigInteger("39803530675327442176852526096736468324561557228813943888563544502720138313715");
 		BigInteger actual = n.expmod(first, second);
@@ -145,9 +144,9 @@ public class BigPointTest extends TestCase {
 		assertEquals(expected, n.getXX(BigInteger.valueOf(2))); 		
  	}
 
-	public void testXrecover() {
-		BigPoint n = new BigPoint();
-		BigInteger expected = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");
-		assertEquals(expected, n.recoverX(BigInteger.valueOf(0)));
-	}
+//	public void testXrecover() {
+//		BigPoint n = new BigPoint();
+//		BigInteger expected = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");
+//		assertEquals(expected, n.recoverX(BigInteger.valueOf(0)));
+//	}
 }

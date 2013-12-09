@@ -7,13 +7,12 @@ public class BigPoint {
 	private BigInteger x;
 	private BigInteger y;
 	
-	private BigInteger bigPrime;
-
+	private Constants constants;
+	
 	public BigPoint(BigInteger first, BigInteger second) {
 		x = first;
 		y = second;
-		// 2^255 - 19
-		bigPrime = BigInteger.valueOf(2).pow(255).subtract(BigInteger.valueOf(19));
+		constants = new Constants();
 	}
 
 	//Lets make base-point baseValue...
@@ -31,25 +30,21 @@ public class BigPoint {
 		}
 		returnValue = expmod(multiplier, primePart.divide(BigInteger.valueOf(2)));
 		returnValue = returnValue.pow(2);
-		returnValue = returnValue.mod(bigPrime);
+		returnValue = returnValue.mod(constants.getBigPrime());
 		if(primePart.testBit(0)) {
 			returnValue = multiplier.multiply(returnValue);
-			returnValue = returnValue.mod(bigPrime);
+			returnValue = returnValue.mod(constants.getBigPrime());
 		}
 		return returnValue;
 	}
 	
-	public BigInteger getBigPrime() {
-		return bigPrime;
-	}
-	
 	public BigInteger invertPoint(BigInteger point) {
-		return expmod(point, bigPrime.subtract(BigInteger.valueOf(2)));
+		return expmod(point, constants.getBigPrime().subtract(BigInteger.valueOf(2)));
 	}
 	
 	public BigInteger recoverX(BigInteger yValue) {
 		BigInteger xx = getXX(yValue);
-		BigInteger q = (bigPrime.add(BigInteger.valueOf(3))).divide(BigInteger.valueOf(8));
+		BigInteger q = (constants.getBigPrime().add(BigInteger.valueOf(3))).divide(BigInteger.valueOf(8));
 		BigInteger x = expmod(xx,q);
 		x = pruneXX(x, xx);
 		return x;
@@ -68,7 +63,10 @@ public class BigPoint {
 	private BigInteger pruneXX(BigInteger x, BigInteger xx) {
 		BigInteger returnValue = x;
 		//   if (x*x - xx) % q != 0: x = (x*I) % q
-		//if(x.multiply(x).subtract(xx))
+		BigInteger bla = modInput(x);
+		if(bla.subtract(xx).mod(constants.getBigPrime()) != BigInteger.valueOf(0) ) {
+			//returnValue = x.multiply(i).mod(bigPrime);
+		}
 		//   if x % 2 != 0: x = q-x
 		return returnValue;
 	}

@@ -5,20 +5,20 @@ import java.security.NoSuchAlgorithmException;
 
 public class Crypto {
 
-	private NumberUtils util;
+	private Constants constants;
 	private Hash sha512;
 	
 	public Crypto() throws NoSuchAlgorithmException {
-		util = new NumberUtils();
+		constants = new Constants();
 		sha512 = new Hash("SHA-512");
 	}
 	public byte[] getPublikKey(byte[] privateKey) {
-		BigInteger n = util.getBaseNumber();
+		BigInteger n = constants.getBaseNumber();
 		sha512.digest(privateKey);
 			
-		for (int i=3;i<(util.BIT_LENGTH - 2);i++) {
+		for (int i=3;i<(constants.getBitLength() - 2);i++) {
 			if(sha512.getBit(i) == 1) {
-				n = n.add(util.get2PowerOf(i));
+				n = n.add(BigInteger.valueOf(2).pow(i));
 			}
 		}
 		//scalarmult
