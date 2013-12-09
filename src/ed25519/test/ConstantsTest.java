@@ -4,7 +4,6 @@ import java.math.BigInteger;
 
 import junit.framework.TestCase;
 import ed25519.application.Constants;
-import ed25519.application.NumberUtils;
 
 public class ConstantsTest extends TestCase {
 

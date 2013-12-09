@@ -8,11 +8,13 @@ public class BigPoint {
 	private BigInteger y;
 	
 	private Constants constants;
+	private NumberUtils util;
 	
 	public BigPoint(BigInteger first, BigInteger second) {
 		x = first;
 		y = second;
 		constants = new Constants();
+		util = new NumberUtils(constants);
 	}
 
 	//Lets make base-point baseValue...
@@ -22,30 +24,15 @@ public class BigPoint {
 		//x = xrecover(y);
 	
 	}
-	
-	public BigInteger expmod(BigInteger multiplier, BigInteger primePart) {
-		BigInteger returnValue;
-		if(primePart.equals(BigInteger.valueOf(0))) {
-			return BigInteger.valueOf(1);
-		}
-		returnValue = expmod(multiplier, primePart.divide(BigInteger.valueOf(2)));
-		returnValue = returnValue.pow(2);
-		returnValue = returnValue.mod(constants.getBigPrime());
-		if(primePart.testBit(0)) {
-			returnValue = multiplier.multiply(returnValue);
-			returnValue = returnValue.mod(constants.getBigPrime());
-		}
-		return returnValue;
-	}
-	
+
 	public BigInteger invertPoint(BigInteger point) {
-		return expmod(point, constants.getBigPrime().subtract(BigInteger.valueOf(2)));
+		return util.expmod(point, constants.getBigPrime().subtract(BigInteger.valueOf(2)));
 	}
 	
 	public BigInteger recoverX(BigInteger yValue) {
 		BigInteger xx = getXX(yValue);
 		BigInteger q = (constants.getBigPrime().add(BigInteger.valueOf(3))).divide(BigInteger.valueOf(8));
-		BigInteger x = expmod(xx,q);
+		BigInteger x = util.expmod(xx,q);
 		x = pruneXX(x, xx);
 		return x;
 	}
