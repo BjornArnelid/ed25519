@@ -57,6 +57,9 @@ public class BigPoint {
 			returnValue =val.mod(constants.getq());
 		}
 		//   if x % 2 != 0: x = q-x
+		if(returnValue.mod(BigInteger.valueOf(2)) != BigInteger.valueOf(0)) {
+			returnValue = constants.getq().subtract(returnValue);
+		}
 		return returnValue;
 	}
 	
