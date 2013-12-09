@@ -12,11 +12,6 @@ public class Hash {
 		hasher = MessageDigest.getInstance(hashAlgorithm);
 	}
 
-	public byte[] getPublikKey(byte[] privateKey) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void digest(byte[] input) {
 		hasher.reset();
 		bytes = hasher.digest(input);

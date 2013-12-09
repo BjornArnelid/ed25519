@@ -49,9 +49,19 @@ public class BigPointTest extends TestCase {
 		assertEquals(expected, n.getXX(BigInteger.valueOf(2))); 		
  	}
 
-//	public void testXrecover() {
-//		BigPoint n = new BigPoint();
-//		BigInteger expected = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");
-//		assertEquals(expected, n.recoverX(BigInteger.valueOf(0)));
+	public void testXrecoverEven() {
+		BigPoint n = new BigPoint();
+		BigInteger expected = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");
+		assertEquals(expected, n.recoverX(BigInteger.valueOf(0)));
+	}
+	
+	public void testXrecoverOdd() {
+		BigPoint n = new BigPoint();
+		BigInteger expected = new BigInteger("26193273134124080442446118532604303931175156347221147955160486408041496074798");
+		assertEquals(expected, n.recoverX(BigInteger.valueOf(4)));
+	}
+	
+//	public void testGetBasePoint() {
+//		fail();
 //	}
 }

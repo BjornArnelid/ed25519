@@ -11,34 +11,35 @@ public class BigPoint {
 	private NumberUtils util;
 	
 	public BigPoint(BigInteger first, BigInteger second) {
-		x = first;
-		y = second;
+		this();
+		setX(first);
+		setY(second);
+	}
+
+	public BigPoint() {
 		constants = new Constants();
 		util = new NumberUtils(constants);
 	}
 
-	//Lets make base-point baseValue...
-	public BigPoint() {
-		this(BigInteger.valueOf(0),BigInteger.valueOf(0));
+	public void getBasePoint() {
 		y = invertPoint(BigInteger.valueOf(5).multiply(BigInteger.valueOf(4)));
 		//x = xrecover(y);
-	
 	}
-
+	
 	public BigInteger invertPoint(BigInteger point) {
-		return util.expmod(point, constants.getBigPrime().subtract(BigInteger.valueOf(2)));
+		return util.expmod(point, constants.getq().subtract(BigInteger.valueOf(2)));
 	}
 	
 	public BigInteger recoverX(BigInteger yValue) {
 		BigInteger xx = getXX(yValue);
-		BigInteger q = (constants.getBigPrime().add(BigInteger.valueOf(3))).divide(BigInteger.valueOf(8));
+		BigInteger q = (constants.getq().add(BigInteger.valueOf(3))).divide(BigInteger.valueOf(8));
 		BigInteger x = util.expmod(xx,q);
 		x = pruneXX(x, xx);
 		return x;
 	}
 
 	public BigInteger getXX(BigInteger input) {
-		BigInteger input2 = modInput(input);
+		BigInteger input2 = powInput(input);
 		BigInteger first = input2.subtract(BigInteger.valueOf(1));
 		
 		BigInteger d = BigInteger.valueOf(-121665).multiply(invertPoint(BigInteger.valueOf(121666)));
@@ -49,16 +50,17 @@ public class BigPoint {
 	
 	private BigInteger pruneXX(BigInteger x, BigInteger xx) {
 		BigInteger returnValue = x;
-		//   if (x*x - xx) % q != 0: x = (x*I) % q
-		BigInteger bla = modInput(x);
-		if(bla.subtract(xx).mod(constants.getBigPrime()) != BigInteger.valueOf(0) ) {
-			//returnValue = x.multiply(i).mod(bigPrime);
+
+		BigInteger bla = powInput(x);
+		if(bla.subtract(xx).mod(constants.getq()) != BigInteger.valueOf(0) ) {
+			BigInteger val =  x.multiply(util.getI());
+			returnValue =val.mod(constants.getq());
 		}
 		//   if x % 2 != 0: x = q-x
 		return returnValue;
 	}
 	
-	private BigInteger modInput(BigInteger input) {
+	private BigInteger powInput(BigInteger input) {
 		return input.multiply(input);
 	}
 
@@ -68,6 +70,14 @@ public class BigPoint {
 
 	public BigInteger getX() {
 		return x;
+	}
+	
+	public void setX(BigInteger x) {
+		this.x = x;
+	}
+
+	public void setY(BigInteger y) {
+		this.y = y;
 	}
 	
 	@Override

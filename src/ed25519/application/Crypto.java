@@ -12,11 +12,12 @@ public class Crypto {
 		constants = new Constants();
 		sha512 = new Hash("SHA-512");
 	}
+
 	public byte[] getPublikKey(byte[] privateKey) {
-		BigInteger n = constants.getBaseNumber();
+		BigInteger n = BigInteger.valueOf(2).pow(256-2);
 		sha512.digest(privateKey);
 			
-		for (int i=3;i<(constants.getBitLength() - 2);i++) {
+		for (int i=3;i<(constants.getb() - 2);i++) {
 			if(sha512.getBit(i) == 1) {
 				n = n.add(BigInteger.valueOf(2).pow(i));
 			}
