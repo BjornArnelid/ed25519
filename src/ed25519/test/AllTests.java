@@ -12,6 +12,7 @@ public class AllTests {
 		suite.addTestSuite(NumberUtilsTest.class);
 		suite.addTestSuite(BigPointTest.class);
 		suite.addTestSuite(ConstantsTest.class);
+		suite.addTestSuite(CurveTest.class);
 		//$JUnit-END$
 		return suite;
 	}

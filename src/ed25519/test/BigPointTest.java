@@ -18,19 +18,7 @@ public class BigPointTest extends TestCase {
 		BigPoint second = new BigPoint(BigInteger.valueOf(3), BigInteger.valueOf(4));
 		assertFalse("BigPoints should not be equal",first.equals(second));
 	}
-	
-	public void testInvertPoint1() {
-		BigPoint n = new BigPoint();
-		BigInteger expected = BigInteger.valueOf(1);
-		assertEquals(expected, n.invertPoint(BigInteger.valueOf(1)));
-	}
-	
-	public void testInvertPoint5() {
-		BigPoint n = new BigPoint();
-		BigInteger expected = new BigInteger("11579208923731619542357098500868790785326998466564056403945758400791312963990");
-		assertEquals(expected, n.invertPoint(BigInteger.valueOf(5)));
-	}
-	
+		
 	public void testgetXXfor0() {
 		BigPoint n = new BigPoint();
 		BigInteger expected = BigInteger.valueOf(-1);
