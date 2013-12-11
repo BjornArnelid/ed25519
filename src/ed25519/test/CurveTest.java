@@ -2,7 +2,6 @@ package ed25519.test;
 
 import java.math.BigInteger;
 
-import ed25519.application.BigPoint;
 import ed25519.application.Curve;
 import junit.framework.TestCase;
 
@@ -26,6 +25,31 @@ public class CurveTest extends TestCase {
 	public void testInvertPoint5() {
 		BigInteger expected = new BigInteger("11579208923731619542357098500868790785326998466564056403945758400791312963990");
 		assertEquals(expected, c.invertPoint(BigInteger.valueOf(5)));
+	}
+	
+	public void testgetXXfor0() {
+		BigInteger expected = BigInteger.valueOf(-1);
+		assertEquals(expected, c.getXX(BigInteger.valueOf(0)));
+	}
+	
+ 	public void testgetXXfor1() {
+		BigInteger expected = BigInteger.valueOf(0);
+		assertEquals(expected, c.getXX(BigInteger.valueOf(1)));
+	}
+ 	
+ 	public void testgetXXfor2() {
+		BigInteger expected = new BigInteger("159238947029881800007354471772647911766795077324544932017472991350137141588898");
+		assertEquals(expected, c.getXX(BigInteger.valueOf(2))); 		
+ 	}
+
+	public void testXrecoverEven() {
+		BigInteger expected = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");
+		assertEquals(expected, c.recoverX(BigInteger.valueOf(0)));
+	}
+	
+	public void testXrecoverOdd() {
+		BigInteger expected = new BigInteger("26193273134124080442446118532604303931175156347221147955160486408041496074798");
+		assertEquals(expected, c.recoverX(BigInteger.valueOf(4)));
 	}
 
 //	public void testGetBasePoint() {
