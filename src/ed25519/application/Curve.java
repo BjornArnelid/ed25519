@@ -12,8 +12,10 @@ public class Curve {
 	}
 
 	public BigPoint getBasePoint() {
-		// TODO Auto-generated method stub
-		return null;
+		BigInteger tmp = invertPoint(BigInteger.valueOf(5));
+		BigInteger y = BigInteger.valueOf(4).multiply(tmp);
+		BigInteger x = recoverX(y);
+		return new BigPoint(x,y);
 	}
 
 	public BigInteger invertPoint(BigInteger point) {

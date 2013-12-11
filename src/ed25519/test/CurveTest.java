@@ -2,6 +2,7 @@ package ed25519.test;
 
 import java.math.BigInteger;
 
+import ed25519.application.BigPoint;
 import ed25519.application.Curve;
 import junit.framework.TestCase;
 
@@ -52,12 +53,12 @@ public class CurveTest extends TestCase {
 		assertEquals(expected, c.recoverX(BigInteger.valueOf(4)));
 	}
 
-//	public void testGetBasePoint() {
-//		Curve c = new Curve();
-//		BigInteger x = new BigInteger("15112221349535400772501151409588531511454012693041857206046113283949847762202");
-//		BigInteger y = new BigInteger("46316835694926478169428394003475163141307993866256225615783033603165251855960");
-//		BigPoint expected = new BigPoint(x,y);
-//		BigPoint basePoint = c.getBasePoint();
-//		assertEquals(expected, basePoint);
-//	}
+	public void testGetBasePoint() {
+		Curve c = new Curve();
+		BigInteger x = new BigInteger("15112221349535400772501151409588531511454012693041857206046113283949847762202");
+		BigInteger y = new BigInteger("46316835694926478169428394003475163141307993866256225615783033603165251855960");
+		BigPoint expected = new BigPoint(x,y);
+		BigPoint basePoint = c.getBasePoint();
+		assertEquals(expected, basePoint);
+	}
 }
