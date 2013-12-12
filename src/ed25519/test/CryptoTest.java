@@ -8,10 +8,10 @@ import ed25519.application.Crypto;
 
 public class CryptoTest extends TestCase {
 
-	public void testScalarMult() {
-		
+	public void testCreateCrypto() throws NoSuchAlgorithmException {
+		Crypto crypto = new Crypto();
+		assertNotNull(crypto);
 	}
-
 //	public void testGetPublicKey() throws NoSuchAlgorithmException {
 //		Crypto crypto = new Crypto();
 //		byte[] input = {0};

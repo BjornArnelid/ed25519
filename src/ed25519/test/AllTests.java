@@ -8,7 +8,7 @@ public class AllTests {
 		TestSuite suite = new TestSuite();
 		//$JUnit-BEGIN$
 		suite.addTestSuite(HashTest.class);
-		//suite.addTestSuite(CryptoTest.class);
+		suite.addTestSuite(CryptoTest.class);
 		suite.addTestSuite(NumberUtilsTest.class);
 		suite.addTestSuite(BigPointTest.class);
 		suite.addTestSuite(ConstantsTest.class);

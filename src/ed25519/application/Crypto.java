@@ -6,10 +6,12 @@ import java.security.NoSuchAlgorithmException;
 public class Crypto {
 
 	private Constants constants;
+	private Curve curve;
 	private Hash sha512;
 	
 	public Crypto() throws NoSuchAlgorithmException {
 		constants = new Constants();
+		curve = new Curve();
 		sha512 = new Hash("SHA-512");
 	}
 
@@ -22,6 +24,8 @@ public class Crypto {
 				n = n.add(BigInteger.valueOf(2).pow(i));
 			}
 		}
+		BigPoint B = curve.getBasePoint();
+		//BigPoint A = scalarmult(B,n);
 		//scalarmult
 		//encodepoint
 		return null;

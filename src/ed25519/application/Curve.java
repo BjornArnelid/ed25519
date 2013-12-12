@@ -57,4 +57,10 @@ public class Curve {
 	private BigInteger powInput(BigInteger input) {
 		return input.multiply(input);
 	}
+
+	public BigPoint scalarmult(BigInteger input) {
+		BigInteger x = new BigInteger("0");
+		BigInteger y = new BigInteger("1");
+		return new BigPoint(x, y);
+	}
 }

@@ -54,11 +54,16 @@ public class CurveTest extends TestCase {
 	}
 
 	public void testGetBasePoint() {
-		Curve c = new Curve();
 		BigInteger x = new BigInteger("15112221349535400772501151409588531511454012693041857206046113283949847762202");
 		BigInteger y = new BigInteger("46316835694926478169428394003475163141307993866256225615783033603165251855960");
 		BigPoint expected = new BigPoint(x,y);
 		BigPoint basePoint = c.getBasePoint();
 		assertEquals(expected, basePoint);
+	}
+	
+	public void testScalarMult0() {
+		BigPoint expected = new BigPoint(new BigInteger("0"), new BigInteger("1"));
+		BigPoint result = c.scalarmult(new BigInteger("0"));
+		assertEquals(expected, result);
 	}
 }
