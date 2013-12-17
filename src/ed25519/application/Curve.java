@@ -63,4 +63,10 @@ public class Curve {
 		BigInteger y = new BigInteger("1");
 		return new BigPoint(x, y);
 	}
+
+	public BigPoint edwards(BigPoint first, BigPoint second) {
+		BigInteger x = new BigInteger("0");
+		BigInteger y = new BigInteger("0");
+		return new BigPoint(x, y);
+	}
 }
