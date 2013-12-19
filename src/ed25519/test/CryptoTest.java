@@ -1,7 +1,8 @@
 package ed25519.test;
 
 import org.testng.annotations.Test;
-import org.testng.AssertJUnit;
+import org.testng.Assert;
+
 import java.security.NoSuchAlgorithmException;
 
 import ed25519.application.Crypto;
@@ -12,7 +13,7 @@ public class CryptoTest {
 	@Test
 	public void testCreateCrypto() throws NoSuchAlgorithmException {
 		Crypto crypto = new Crypto();
-		AssertJUnit.assertNotNull(crypto);
+		Assert.assertNotNull(crypto);
 	}
 //	public void testGetPublicKey() throws NoSuchAlgorithmException {
 //		Crypto crypto = new Crypto();
