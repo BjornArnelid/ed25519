@@ -1,16 +1,18 @@
 package ed25519.test;
 
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import java.security.NoSuchAlgorithmException;
 
-import junit.framework.TestCase;
 import ed25519.application.Crypto;
 
 
-public class CryptoTest extends TestCase {
+public class CryptoTest {
 
+	@Test
 	public void testCreateCrypto() throws NoSuchAlgorithmException {
 		Crypto crypto = new Crypto();
-		assertNotNull(crypto);
+		AssertJUnit.assertNotNull(crypto);
 	}
 //	public void testGetPublicKey() throws NoSuchAlgorithmException {
 //		Crypto crypto = new Crypto();

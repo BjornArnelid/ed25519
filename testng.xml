@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SuiteED25519" parallel="none">
+  <test name="TestED25519">
+    <classes>
+      <class name="ed25519.test.BigPointTest"/>
+      <class name="ed25519.test.CurveTest"/>
+      <class name="ed25519.test.NumberUtilsTest"/>
+      <class name="ed25519.test.AllTests"/>
+      <class name="ed25519.test.CryptoTest"/>
+      <class name="ed25519.test.HashTest"/>
+      <class name="ed25519.test.ConstantsTest"/>
+    </classes>
+  </test> <!-- TestED25519 -->
+</suite> <!-- SuiteED25519 -->
