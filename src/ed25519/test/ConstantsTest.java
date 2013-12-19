@@ -1,23 +1,19 @@
 package ed25519.test;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.AssertJUnit;
 import java.math.BigInteger;
+
+import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import ed25519.application.Constants;
 
 public class ConstantsTest {
 	private Constants c;
 	
-	@BeforeMethod
+	@BeforeClass
 	protected void setUp() throws Exception {
 		c = new Constants();
-	}
-
-	@AfterMethod
-	protected void tearDown() throws Exception {
 	}
 	
 	@Test

@@ -12,7 +12,7 @@ import ed25519.application.Hash;
 
 public class HashTest {
 
-	@Test
+	@Test(groups = {"hash"})
 	public void testHashString() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		Hash sha512 = new Hash("SHA-512");
 		byte[] input = "0".getBytes();
@@ -21,7 +21,7 @@ public class HashTest {
 		AssertJUnit.assertTrue("Expected: " + expected + "\nbut was " + sha512.getBytes() ,Arrays.equals(expected, sha512.getBytes()));
 	}
 	
-	@Test
+	@Test(groups = {"hash"})
 	public void testGetfirstBitInHash() throws NoSuchAlgorithmException {
 		Hash sha512 = new Hash("SHA-512");
 		byte[] input = "0".getBytes(); 
@@ -30,7 +30,7 @@ public class HashTest {
 		AssertJUnit.assertEquals(expected, sha512.getBit(0));
 	}
 	
-	@Test
+	@Test(groups = {"hash"})
 	public void testFirstBitInSecondByte() throws NoSuchAlgorithmException {
 		Hash sha512 = new Hash("SHA-512");
 		byte[] input = "0".getBytes(); 

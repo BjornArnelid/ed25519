@@ -12,13 +12,13 @@ public class Curve {
 	}
 
 	public BigPoint getBasePoint() {
-		BigInteger tmp = invertPoint(BigInteger.valueOf(5));
+		BigInteger tmp = invert(BigInteger.valueOf(5));
 		BigInteger y = BigInteger.valueOf(4).multiply(tmp);
 		BigInteger x = recoverX(y);
 		return new BigPoint(x,y);
 	}
 
-	public BigInteger invertPoint(BigInteger point) {
+	public BigInteger invert(BigInteger point) {
 		return util.expmod(point, constants.getq().subtract(BigInteger.valueOf(2)));
 	}
 	
@@ -34,9 +34,9 @@ public class Curve {
 		BigInteger input2 = powInput(input);
 		BigInteger first = input2.subtract(BigInteger.valueOf(1));
 		
-		BigInteger d = BigInteger.valueOf(-121665).multiply(invertPoint(BigInteger.valueOf(121666)));
+		BigInteger d = BigInteger.valueOf(-121665).multiply(invert(BigInteger.valueOf(121666)));
 		BigInteger partSecond = input2.multiply(d).add(BigInteger.valueOf(1));
-		BigInteger second = invertPoint(partSecond);
+		BigInteger second = invert(partSecond);
 		return first.multiply(second);
 	}
 	

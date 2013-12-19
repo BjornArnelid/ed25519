@@ -9,3 +9,6 @@
 *.war
 *.ear
 /bin
+
+# Test output #
+/test-output

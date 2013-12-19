@@ -8,21 +8,21 @@ import ed25519.application.BigPoint;
 
 public class BigPointTest {
 	
-	@Test
+	@Test(groups = {"bigpoint"})
 	public void testBigPointEquals() {
 		BigPoint first = new BigPoint(BigInteger.valueOf(1), BigInteger.valueOf(2));
 		BigPoint second = new BigPoint(BigInteger.valueOf(1), BigInteger.valueOf(2));
 		AssertJUnit.assertEquals(first,second);
 	}
 	
-	@Test
+	@Test(groups = {"bigpoint"})
 	public void testBigPointNotEquals() {
 		BigPoint first = new BigPoint(BigInteger.valueOf(1), BigInteger.valueOf(2));
 		BigPoint second = new BigPoint(BigInteger.valueOf(3), BigInteger.valueOf(4));
 		AssertJUnit.assertFalse("BigPoints should not be equal",first.equals(second));
 	}
 	
-	@Test
+	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"})
 	public void testXMod() {
 		BigInteger expected = new BigInteger("1");
 		BigPoint point = new BigPoint();
@@ -30,7 +30,7 @@ public class BigPointTest {
 		AssertJUnit.assertEquals(expected, point.getX());
 	}
 	
-	@Test
+	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"})
 	public void testYMod() {
 		BigInteger expected = new BigInteger("1");
 		BigPoint point = new BigPoint();
