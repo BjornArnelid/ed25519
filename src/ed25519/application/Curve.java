@@ -65,8 +65,19 @@ public class Curve {
 	}
 
 	public BigPoint edwards(BigPoint first, BigPoint second) {
-		BigInteger x = new BigInteger("0");
-		BigInteger y = new BigInteger("0");
+		BigInteger x = getEdwardX(first, second);
+		BigInteger y = getEdwardY(first, second);
 		return new BigPoint(x, y);
 	}
+	
+	private BigInteger getEdwardX(BigPoint first, BigPoint second) {
+		BigInteger part1 = first.getX().add(second.getX());
+		BigInteger part2 = invert(new BigInteger("0"));
+		return part1.multiply(part2);
+	}
+
+	private BigInteger getEdwardY(BigPoint first, BigPoint second) {
+		return new BigInteger("0");
+	}
+
 }

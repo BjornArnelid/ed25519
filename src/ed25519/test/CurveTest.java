@@ -68,6 +68,11 @@ public class CurveTest {
 		Assert.assertEquals(basePoint, expected);
 	}
 	
+	@Test
+	public void testgetD() {
+		
+	}
+	
 	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
 	public void testEdwards0and0() {
 		BigPoint first = new BigPoint(new BigInteger("0"), new BigInteger("0"));
@@ -77,14 +82,14 @@ public class CurveTest {
 		Assert.assertEquals(result, expected);
 	}
 	
-	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
-	public void testEdwards1and1() {
-		BigPoint first = new BigPoint(new BigInteger("1"), new BigInteger("1"));
-		BigPoint second = new BigPoint(new BigInteger("1"), new BigInteger("1"));
-		BigPoint expected = new BigPoint(new BigInteger("243332"), new BigInteger("51380297829790456491237162401597246033761091082941378702394490295467508647106"));
-		BigPoint result = c.edwards(first, second);
-		Assert.assertEquals(result, expected);
-	}
+//	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
+//	public void testEdwards1and1() {
+//		BigPoint first = new BigPoint(new BigInteger("1"), new BigInteger("1"));
+//		BigPoint second = new BigPoint(new BigInteger("1"), new BigInteger("1"));
+//		BigPoint expected = new BigPoint(new BigInteger("243332"), new BigInteger("51380297829790456491237162401597246033761091082941378702394490295467508647106"));
+//		BigPoint result = c.edwards(first, second);
+//		Assert.assertEquals(result, expected);
+//	}
 
 	@Test(dependsOnGroups = {"bigpoint"})
 	public void testScalarMult0() {
