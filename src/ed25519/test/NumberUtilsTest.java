@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import ed25519.application.Constants;
@@ -19,92 +20,30 @@ public class NumberUtilsTest {
 		n = new NumberUtils(c);
 	}
 	
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodfor0() {
-		BigInteger first = BigInteger.valueOf(1);
-		BigInteger second = BigInteger.valueOf(0);
-		BigInteger expected = BigInteger.valueOf(1);
-		BigInteger actual = n.expmod(first, second);
-	Assert.assertEquals(actual, expected);
+	@DataProvider(name = "expmod")
+	public static Object[][] expmodProvider() {
+		Constants c = new Constants();
+		BigInteger zero = BigInteger.valueOf(0);
+		BigInteger one = BigInteger.valueOf(1);
+		BigInteger two = BigInteger.valueOf(2);
+		BigInteger three = BigInteger.valueOf(3);
+		BigInteger four = BigInteger.valueOf(4);
+		BigInteger twentyseven = BigInteger.valueOf(27);
+		BigInteger halfq = c.getq().divide(BigInteger.valueOf(2));
+		BigInteger qplusone = c.getq().add(BigInteger.valueOf(1));
+		BigInteger large1 = new BigInteger("43422033463993573283839119378257965444976244249615211514796594002967423614962");
+		BigInteger large2 = new BigInteger("36185027886661311069865932815214971204146870208012676262330495002472853012468");
+		BigInteger large3 = new BigInteger("39803530675327442176852526096736468324561557228813943888563544502720138313715");
+		Object[][] data = new Object[][] {{one, zero, one}, {one, one, one},
+				{two, one, two}, {qplusone, one, one}, {one, two, one},
+				{two, two, four}, {halfq, two, large1},
+				{three, three, twentyseven}, {halfq, three, large2},
+				{halfq, four, large3}};
+		return data;
 	}
 	
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodfor1and1() {
-		BigInteger first = BigInteger.valueOf(1);
-		BigInteger second = BigInteger.valueOf(1);
-		BigInteger expected = BigInteger.valueOf(1);
-		BigInteger actual = n.expmod(first, second);
-		Assert.assertEquals(actual, expected);
-	}
-	
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodfor2and1() {
-		BigInteger first = BigInteger.valueOf(2);
-		BigInteger second = BigInteger.valueOf(1);
-		BigInteger expected = BigInteger.valueOf(2);
-		BigInteger actual = n.expmod(first, second);
-		Assert.assertEquals(actual, expected);
-	}
-	
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodforHugeand1() {
-		BigInteger first = c.getq().add(BigInteger.valueOf(1));
-		BigInteger second = BigInteger.valueOf(1);
-		BigInteger expected = BigInteger.valueOf(1);
-		BigInteger actual = n.expmod(first, second);
-		Assert.assertEquals(actual, expected);
-	}
-	
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodfor1and2() {
-		BigInteger first = BigInteger.valueOf(1);
-		BigInteger second = BigInteger.valueOf(2);
-		BigInteger expected = BigInteger.valueOf(1);
-		BigInteger actual = n.expmod(first, second);
-		Assert.assertEquals(actual, expected);
-	}
-	
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodfor2and2() {
-		BigInteger first = BigInteger.valueOf(2);
-		BigInteger second = BigInteger.valueOf(2);
-		BigInteger expected = BigInteger.valueOf(4);
-		BigInteger actual = n.expmod(first, second);
-		Assert.assertEquals(actual, expected);
-	}
-
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodforHugeand2() {
-		BigInteger first = c.getq().divide(BigInteger.valueOf(2));
-		BigInteger second = BigInteger.valueOf(2);
-		BigInteger expected = new BigInteger("43422033463993573283839119378257965444976244249615211514796594002967423614962");
-		BigInteger actual = n.expmod(first, second);
-		Assert.assertEquals(actual, expected);
-	}
-	
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpModfor3and3() {
-		BigInteger first = BigInteger.valueOf(3);
-		BigInteger second = BigInteger.valueOf(3);
-		BigInteger expected = BigInteger.valueOf(27);
-		BigInteger actual = n.expmod(first, second);
-		Assert.assertEquals(actual, expected);
-	}
-	
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodforHugeand3() {
-		BigInteger first = c.getq().divide(BigInteger.valueOf(2));
-		BigInteger second = BigInteger.valueOf(3);
-		BigInteger expected = new BigInteger("36185027886661311069865932815214971204146870208012676262330495002472853012468");
-		BigInteger actual = n.expmod(first, second);
-		Assert.assertEquals(actual, expected);
-	}
-
-	@Test(dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
-	public void testExpmodforHugeand4() {
-		BigInteger first = c.getq().divide(BigInteger.valueOf(2));
-		BigInteger second = BigInteger.valueOf(4);
-		BigInteger expected = new BigInteger("39803530675327442176852526096736468324561557228813943888563544502720138313715");
+	@Test(dataProvider = "expmod", dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, groups = {"expmod"})
+	public void testExpmod(BigInteger first, BigInteger second, BigInteger expected) {
 		BigInteger actual = n.expmod(first, second);
 		Assert.assertEquals(actual, expected);
 	}
