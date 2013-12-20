@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import ed25519.application.BigPoint;
@@ -17,36 +18,43 @@ public class CurveTest {
 		c = new Curve();
 	}
 
-	@Test(dependsOnGroups = {"expmod", "getxx"}, groups = {"invert"})
-	public void testInvert1() {
-		BigInteger expected = BigInteger.valueOf(1);
-		Assert.assertEquals(c.invert(BigInteger.valueOf(1)), expected);
+	@DataProvider(name = "invert")
+	public static Object[][] invertProvider() {
+		BigInteger one = BigInteger.valueOf(1);
+		BigInteger five = BigInteger.valueOf(5);
+		BigInteger large1 = new BigInteger("11579208923731619542357098500868790785326998466564056403945758400791312963990");
+		Object[][] data = {{one, one}, {five, large1}};
+		return data;
 	}
 	
-	@Test(dependsOnGroups = {"expmod", "getxx"}, groups = {"invert"})
-	public void testInvert5() {
-		BigInteger expected = new BigInteger("11579208923731619542357098500868790785326998466564056403945758400791312963990");
-		Assert.assertEquals(c.invert(BigInteger.valueOf(5)), expected);
+	@Test(dataProvider = "invert", dependsOnMethods = {"ed25519.test.NumberUtilsTest.testExpmod"}, dependsOnGroups = {"getxx"}, groups = {"invert"})
+	public void testInvert(BigInteger value, BigInteger expected) {
+		Assert.assertEquals(c.invert(value), expected);
 	}
-	
-	@Test(dependsOnGroups = {"expmod"}, groups = {"getxx"})
-	public void testgetXXfor0() {
-		BigInteger expected = BigInteger.valueOf(-1);
-		Assert.assertEquals(c.getXX(BigInteger.valueOf(0)), expected);
-	}
-	
- 	@Test(dependsOnGroups = {"expmod"}, groups = {"getxx"})
-	public void testgetXXfor1() {
-		BigInteger expected = BigInteger.valueOf(0);
-		Assert.assertEquals(c.getXX(BigInteger.valueOf(1)), expected);
-	}
- 	
- 	@Test(dependsOnGroups = {"expmod"}, groups = {"getxx"})
-	public void testgetXXfor2() {
-		BigInteger expected = new BigInteger("159238947029881800007354471772647911766795077324544932017472991350137141588898");
-		Assert.assertEquals(c.getXX(BigInteger.valueOf(2)), expected); 		
- 	}
 
+	@DataProvider(name = "getxx")
+	public static Object[][] getxxProvider() {
+		BigInteger minusOne = BigInteger.valueOf(-1);
+		BigInteger zero = BigInteger.valueOf(0);
+		BigInteger one = BigInteger.valueOf(1);
+		BigInteger two = BigInteger.valueOf(2);
+		BigInteger large1 = new BigInteger("159238947029881800007354471772647911766795077324544932017472991350137141588898");
+		Object[][] data = {{minusOne, zero}, {one, zero}, {two, large1}};
+		return data;
+	}
+	
+	@Test(dataProvider = "getxx", dependsOnMethods = "ed25519.test.NumberUtilsTest.testExpmod", groups = {"getxx"})
+	public void testGetXX(BigInteger value, BigInteger expected) {
+		Assert.assertEquals(c.getXX(value), expected);
+	}
+
+	
+//	@DataProvider(name = "xrecover")
+//	public static Object[][] xRecoverProvider() {
+//		return null;
+//	}
+	
+	
 	@Test(dependsOnGroups = {"expmod", "getxx"}, groups = {"recoverx"})
 	public void testXrecoverEven() {
 		BigInteger expected = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");

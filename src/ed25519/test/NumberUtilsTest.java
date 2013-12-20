@@ -47,7 +47,7 @@ public class NumberUtilsTest {
 		Assert.assertEquals(actual, expected);
 	}
 	
-	@Test(dependsOnGroups = {"expmod"})
+	@Test(dependsOnMethods= {"ed25519.test.NumberUtilsTest.testExpmod"})
 	public void testGetI() {
 		BigInteger expected = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");
 		Assert.assertEquals(n.getI(), expected);
