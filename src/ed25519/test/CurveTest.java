@@ -68,10 +68,10 @@ public class CurveTest {
 		Assert.assertEquals(basePoint, expected);
 	}
 	
-	@Test
-	public void testgetD() {
-		
-	}
+//	@Test
+//	public void testgetD() {
+//		
+//	}
 	
 	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
 	public void testEdwards0and0() {
