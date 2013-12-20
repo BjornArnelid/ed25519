@@ -12,11 +12,10 @@ import ed25519.application.NumberUtils;
 
 public class NumberUtilsTest {
 	private NumberUtils n;
-	private Constants c;
 	
 	@BeforeClass
 	protected void setUp() throws Exception {
-		c = new Constants();
+		Constants c = new Constants();
 		n = new NumberUtils(c);
 	}
 	
