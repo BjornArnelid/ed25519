@@ -48,23 +48,19 @@ public class CurveTest {
 		Assert.assertEquals(c.getXX(value), expected);
 	}
 
-	
-//	@DataProvider(name = "xrecover")
-//	public static Object[][] xRecoverProvider() {
-//		return null;
-//	}
-	
-	
-	@Test(dependsOnGroups = {"expmod", "getxx"}, groups = {"recoverx"})
-	public void testXrecoverEven() {
-		BigInteger expected = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");
-		Assert.assertEquals(c.recoverX(BigInteger.valueOf(0)), expected);
+	@DataProvider(name = "xrecover")
+	public static Object[][] xRecoverProvider() {
+		BigInteger zero = BigInteger.valueOf(0);
+		BigInteger four = BigInteger.valueOf(4);
+		BigInteger large1 = new BigInteger("19681161376707505956807079304988542015446066515923890162744021073123829784752");
+		BigInteger large2 = new BigInteger("26193273134124080442446118532604303931175156347221147955160486408041496074798");
+		Object[][] data = {{zero, large1}, {four, large2}};
+		return data;
 	}
 	
-	@Test(dependsOnGroups = {"expmod", "getxx"}, groups = {"recoverx"})
-	public void testXrecoverOdd() {
-		BigInteger expected = new BigInteger("26193273134124080442446118532604303931175156347221147955160486408041496074798");
-		Assert.assertEquals(c.recoverX(BigInteger.valueOf(4)), expected);
+	@Test(dataProvider = "xrecover", dependsOnMethods = {"ed25519.test.NumberUtilsTest.testExpmod", "testGetXX"}, groups = {"recoverx"})
+	public void testXRecover(BigInteger value, BigInteger expected) {
+		Assert.assertEquals(c.recoverX(value), expected);
 	}
 
 	@Test(dependsOnGroups = {"bigpoint", "invert", "recoverx"}, groups = {"basepoint"})
