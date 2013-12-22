@@ -5,10 +5,12 @@ import java.math.BigInteger;
 public class Curve {
 	private NumberUtils util;
 	private Constants constants;
+	private BigInteger d;
 	
 	public Curve() {
 		constants = new Constants();
 		util = new NumberUtils(constants);
+		d = new BigInteger("-121665").multiply(invert(new BigInteger("121666")));
 	}
 
 	public BigPoint getBasePoint() {
@@ -78,6 +80,10 @@ public class Curve {
 
 	private BigInteger getEdwardY(BigPoint first, BigPoint second) {
 		return new BigInteger("0");
+	}
+
+	public Object getD() {
+		return d;
 	}
 
 }

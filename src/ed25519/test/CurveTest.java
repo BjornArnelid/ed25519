@@ -72,10 +72,11 @@ public class CurveTest {
 		Assert.assertEquals(basePoint, expected);
 	}
 	
-//	@Test
-//	public void testgetD() {
-//		
-//	}
+	@Test
+	public void testgetD() {
+		BigInteger expected = new BigInteger("-4513249062541557337682894930092624173785641285191125241628941591882900924598840740");
+		Assert.assertEquals(c.getD(), expected);
+	}
 	
 	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
 	public void testEdwards0and0() {
