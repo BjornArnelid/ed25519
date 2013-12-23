@@ -3,9 +3,10 @@
 <suite name="SuiteED25519" parallel="none">
   <test name="TestED25519">
     <classes>
+      <class name="ed25519.test.CryptoNumberTest"/>
       <class name="ed25519.test.ConstantsTest"/>
       <class name="ed25519.test.BigPointTest"/>
-        <class name="ed25519.test.NumberUtilsTest"/>
+      <class name="ed25519.test.NumberUtilsTest"/>
       <class name="ed25519.test.CurveTest"/>
       <class name="ed25519.test.HashTest"/>
       <class name="ed25519.test.CryptoTest"/>
