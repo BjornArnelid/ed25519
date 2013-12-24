@@ -12,4 +12,11 @@ public class CryptoNumberTest {
 		CryptoNumber n = new CryptoNumber(5);
 		Assert.assertEquals(n.toString(), "5");
 	}
+	
+	@Test
+	public void testEquals() {
+		CryptoNumber first = new CryptoNumber(5);
+		CryptoNumber second = new CryptoNumber(5);
+		Assert.assertEquals(first, second);
+	}
 }

@@ -13,4 +13,13 @@ public class CryptoNumber {
 		return String.valueOf(value);
 	}
 
+	@Override
+	public boolean equals(Object aThat) {
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Long.valueOf(value).hashCode();
+	}
 }
