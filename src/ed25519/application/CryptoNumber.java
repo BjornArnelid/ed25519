@@ -38,7 +38,7 @@ public class CryptoNumber {
 		return Long.valueOf(value).hashCode();
 	}
 
-	public void pow(int pow) {
+	public void pow(CryptoNumber pow) {
 
 	}
 }

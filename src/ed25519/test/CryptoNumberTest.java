@@ -29,11 +29,19 @@ public class CryptoNumberTest {
 		Assert.assertNotEquals(first, second);
 	}
 	
-	@Test
-	public void testPow() {
-		CryptoNumber expected = new CryptoNumber(5);
-		CryptoNumber n = new CryptoNumber(5);
-		n.pow(1);
+	@DataProvider(name="pow")
+	public static Object[][] powProvider() {
+		CryptoNumber one = new CryptoNumber(1);
+		CryptoNumber two = new CryptoNumber(2);
+		CryptoNumber large1 = new CryptoNumber(254);
+		CryptoNumber large2 = new CryptoNumber("28948022309329048855892746252171976963317496166410141009864396001978282409984");
+		Object[][] data = {{one, two}, {large1, large2}};
+		return data;
+	}
+	@Test(dataProvider="pow")
+	public void testPow(CryptoNumber power, CryptoNumber expected) {
+		CryptoNumber n = new CryptoNumber(2);
+		n.pow(power);
 		Assert.assertEquals(n, expected);
 	}
 }
