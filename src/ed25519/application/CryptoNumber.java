@@ -8,6 +8,10 @@ public class CryptoNumber {
 		value = input;
 	}
 	
+	public CryptoNumber(String input) {
+		value = Long.parseLong(input);
+	}
+
 	@Override
 	public String toString() {
 		return String.valueOf(value);
@@ -15,11 +19,26 @@ public class CryptoNumber {
 
 	@Override
 	public boolean equals(Object aThat) {
-		return true;
+		if(aThat instanceof CryptoNumber) {
+			long other = ((CryptoNumber) aThat).getValue();
+			if(value == other) {
+				return true;
+			}
+		}
+		return false;
+
 	}
-	
+
+	protected long getValue() {
+		return value;
+	}
+
 	@Override
 	public int hashCode() {
 		return Long.valueOf(value).hashCode();
+	}
+
+	public void pow(int pow) {
+
 	}
 }
