@@ -1,15 +1,17 @@
 package ed25519.application;
 
+import java.math.BigInteger;
+
 public class CryptoNumber {
 
-	private long value;
+	private BigInteger value;
 
 	public CryptoNumber(long input) {
-		value = input;
+		value = BigInteger.valueOf(input);
 	}
 	
 	public CryptoNumber(String input) {
-		value = Long.parseLong(input);
+		value = new BigInteger(input);
 	}
 
 	@Override
@@ -20,25 +22,24 @@ public class CryptoNumber {
 	@Override
 	public boolean equals(Object aThat) {
 		if(aThat instanceof CryptoNumber) {
-			long other = ((CryptoNumber) aThat).getValue();
-			if(value == other) {
+			BigInteger other = ((CryptoNumber) aThat).getValue();
+			if(value.equals(other)) {
 				return true;
 			}
 		}
 		return false;
-
 	}
 
-	protected long getValue() {
+	protected BigInteger getValue() {
 		return value;
 	}
 
-	@Override
-	public int hashCode() {
-		return Long.valueOf(value).hashCode();
-	}
+//	@Override
+//	public int hashCode() {
+//		return Long.valueOf(value).hashCode();
+//	}
 
 	public void pow(CryptoNumber pow) {
-
+		value = value.pow(pow.getValue().intValue());
 	}
 }
