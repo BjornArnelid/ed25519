@@ -39,9 +39,18 @@ public class CryptoNumberTest {
 		return data;
 	}
 	@Test(dataProvider="pow")
-	public void testPow(CryptoNumber power, CryptoNumber expected) {
-		CryptoNumber n = new CryptoNumber(2);
-		n.pow(power);
-		Assert.assertEquals(n, expected);
+	public void testPow(CryptoNumber exponent, CryptoNumber expected) {
+		CryptoNumber base = new CryptoNumber(2);
+		base.pow(exponent);
+		Assert.assertEquals(base, expected);
+	}
+	
+	@Test
+	public void testSubtract() {
+		CryptoNumber minuend = new CryptoNumber(2);
+		CryptoNumber subtrahend = new CryptoNumber(1);
+		minuend.subtract(subtrahend);
+		CryptoNumber expected = new CryptoNumber(1);
+		Assert.assertEquals(minuend, expected);
 	}
 }

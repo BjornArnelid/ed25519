@@ -39,7 +39,11 @@ public class CryptoNumber {
 //		return Long.valueOf(value).hashCode();
 //	}
 
-	public void pow(CryptoNumber pow) {
-		value = value.pow(pow.getValue().intValue());
+	public void pow(CryptoNumber exponent) {
+		value = value.pow(exponent.getValue().intValue());
+	}
+
+	public void subtract(CryptoNumber subtrahend) {
+		value = value.subtract(subtrahend.getValue());
 	}
 }
