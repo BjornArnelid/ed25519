@@ -51,6 +51,29 @@ public class CryptoNumberTest {
 		Assert.assertEquals(number, expected);
 	}
 	
+	@DataProvider(name="add")
+	public static Object[][] addPrivider() {
+		CryptoNumber three = new CryptoNumber(3);
+		CryptoNumber eight = new CryptoNumber(8);
+		CryptoNumber nine = new CryptoNumber(9);
+
+		Object[][] data = {{three, eight}, {4, nine}};
+		return data;
+	}
+	
+	@Test(dataProvider="add")
+	public void testAdd(Object addend, CryptoNumber expected) {
+		CryptoNumber number = new CryptoNumber(5);
+		if(addend instanceof CryptoNumber) {
+			addend = (CryptoNumber) addend;
+			number.add((CryptoNumber)addend);
+		}
+		else {
+			number.add((Integer)addend);
+		}
+		Assert.assertEquals(number, expected);
+	}
+	
 	@DataProvider(name="pow")
 	public static Object[][] powProvider() {
 		CryptoNumber one = new CryptoNumber(1);
@@ -60,6 +83,7 @@ public class CryptoNumberTest {
 		Object[][] data = {{one, two}, {large1, large2}};
 		return data;
 	}
+	
 	@Test(dataProvider="pow")
 	public void testPow(CryptoNumber exponent, CryptoNumber expected) {
 		CryptoNumber base = new CryptoNumber(2);

@@ -22,6 +22,16 @@ public class CryptoNumber {
 		value = value.subtract(BigInteger.valueOf(subtrahend));
 	}
 	
+	public void add(CryptoNumber addend) {
+		value = value.add(addend.getValue());
+		
+	}
+
+	public void add(long addend) {
+		value = value.add(BigInteger.valueOf(addend));
+		
+	}
+	
 	public void pow(CryptoNumber exponent) {
 		value = value.pow(exponent.getValue().intValue());
 	}
