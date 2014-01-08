@@ -28,8 +28,8 @@ public class NumberUtilsTest {
 		BigInteger three = BigInteger.valueOf(3);
 		BigInteger four = BigInteger.valueOf(4);
 		BigInteger twentyseven = BigInteger.valueOf(27);
-		BigInteger halfq = c.getq().divide(BigInteger.valueOf(2));
-		BigInteger qplusone = c.getq().add(BigInteger.valueOf(1));
+		BigInteger halfq = c.getqold().divide(BigInteger.valueOf(2));
+		BigInteger qplusone = c.getqold().add(BigInteger.valueOf(1));
 		BigInteger large1 = new BigInteger("43422033463993573283839119378257965444976244249615211514796594002967423614962");
 		BigInteger large2 = new BigInteger("36185027886661311069865932815214971204146870208012676262330495002472853012468");
 		BigInteger large3 = new BigInteger("39803530675327442176852526096736468324561557228813943888563544502720138313715");

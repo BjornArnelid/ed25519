@@ -26,11 +26,11 @@ public class BigPoint {
 	}
 	
 	public void setX(BigInteger x) {
-		this.x = x.mod(constants.getq());
+		this.x = x.mod(constants.getqold());
 	}
 
 	public void setY(BigInteger y) {
-		this.y = y.mod(constants.getq());
+		this.y = y.mod(constants.getqold());
 	}
 	
 	@Override

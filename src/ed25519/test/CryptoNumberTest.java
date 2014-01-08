@@ -1,12 +1,21 @@
 package ed25519.test;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import ed25519.application.Constants;
 import ed25519.application.CryptoNumber;
 
 public class CryptoNumberTest {
+	
+	private Constants c;
+
+	@BeforeClass
+	protected void setUp() throws Exception {
+		c = new Constants();
+	}
 	
 	@DataProvider(name="equals")
 	public static Object[][] equalsProvider() {
@@ -17,12 +26,12 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider = "equals")
+	@Test(dataProvider = "equals", groups = {"basics"})
 	public void testEquals(CryptoNumber first, CryptoNumber second) {
 		Assert.assertEquals(first, second);
 	}
 	
-	@Test
+	@Test(groups = {"basics"})
 	public void testNotEquals() {
 		CryptoNumber first = new CryptoNumber(5);
 		CryptoNumber second = new CryptoNumber(8);
@@ -38,7 +47,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider="subtract")
+	@Test(dataProvider="subtract", groups = {"basics"})
 	public void testSubtract(Object subtrahend, CryptoNumber expected) {
 		CryptoNumber number = new CryptoNumber(5);
 		if(subtrahend instanceof CryptoNumber) {
@@ -61,7 +70,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider="add")
+	@Test(dataProvider="add", groups = {"basics"})
 	public void testAdd(Object addend, CryptoNumber expected) {
 		CryptoNumber number = new CryptoNumber(5);
 		if(addend instanceof CryptoNumber) {
@@ -83,7 +92,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider="div")
+	@Test(dataProvider="div", groups = {"basics"})
 	public void testDivision(Object divisor, CryptoNumber expected) {
 		CryptoNumber number = new CryptoNumber(20);
 		if(divisor instanceof CryptoNumber) {
@@ -105,7 +114,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider="mult")
+	@Test(dataProvider="mult", groups = {"basics"})
 	public void testMultiplication(Object multiplier, CryptoNumber expected) {
 		CryptoNumber number = new CryptoNumber(5);
 		if(multiplier instanceof CryptoNumber) {
@@ -126,7 +135,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider="mod")
+	@Test(dataProvider="mod", groups = {"basics"})
 	public void testModulus(Object modulus, CryptoNumber expected) {
 		CryptoNumber number = new CryptoNumber(5);
 		if(modulus instanceof CryptoNumber) {
@@ -149,7 +158,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider="pow")
+	@Test(dataProvider="pow", groups = {"basics"})
 	public void testPow(Object exponent, CryptoNumber expected) {
 		CryptoNumber number = new CryptoNumber(2);
 		if(exponent instanceof CryptoNumber) {
@@ -159,5 +168,43 @@ public class CryptoNumberTest {
 			Assert.assertEquals(number.pow((Integer)exponent), expected);
 		}
 		Assert.assertEquals(number, expected);
+	}
+	
+	@Test(groups = {"basics"})
+	public void testCopy() {
+		CryptoNumber original = new CryptoNumber(0);
+		CryptoNumber clone = original.copy();
+		Assert.assertEquals(clone, original);
+		clone.add(1);
+		Assert.assertNotEquals(clone, original);
+	}
+	
+	@DataProvider(name = "expmod")
+	public static Object[][] expmodProvider() {
+		Constants c = new Constants();
+		CryptoNumber zero = new CryptoNumber(0);
+		CryptoNumber one = new CryptoNumber(1);
+		CryptoNumber two = new CryptoNumber(2);
+		CryptoNumber three = new CryptoNumber(3);
+		CryptoNumber four = new CryptoNumber(4);
+		CryptoNumber twentyseven = new CryptoNumber(27);
+		CryptoNumber halfq = c.getq().divide(2);
+		CryptoNumber qplusone = c.getq().add(1);
+		CryptoNumber large1 =new CryptoNumber("43422033463993573283839119378257965444976244249615211514796594002967423614962");
+		CryptoNumber large2 = new CryptoNumber("36185027886661311069865932815214971204146870208012676262330495002472853012468");
+		CryptoNumber large3 = new CryptoNumber("39803530675327442176852526096736468324561557228813943888563544502720138313715");
+		Object[][] data = new Object[][] {{one, zero, one}, {one, one, one},
+				{two, one, two}, {qplusone, one, one}, {one, two, one},
+				{two, two, four}, {halfq, two, large1},
+				{three, three, twentyseven}, {halfq, three, large2},
+				{halfq, four, large3}};
+		return data;
+	}
+	
+	@Test(dataProvider = "expmod", dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"})
+	public void testExpmod(CryptoNumber number, CryptoNumber expModulus, CryptoNumber expected) {
+		CryptoNumber actual = number.copy();
+		Assert.assertEquals(actual.expmod(expModulus, c.getq()), expected);
+		Assert.assertEquals(actual, expected);
 	}
 }

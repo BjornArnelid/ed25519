@@ -21,12 +21,12 @@ public class Curve {
 	}
 
 	public BigInteger invert(BigInteger point) {
-		return util.expmod(point, constants.getq().subtract(BigInteger.valueOf(2)));
+		return util.expmod(point, constants.getqold().subtract(BigInteger.valueOf(2)));
 	}
 	
 	public BigInteger recoverX(BigInteger yValue) {
 		BigInteger xx = getXX(yValue);
-		BigInteger q = (constants.getq().add(BigInteger.valueOf(3))).divide(BigInteger.valueOf(8));
+		BigInteger q = (constants.getqold().add(BigInteger.valueOf(3))).divide(BigInteger.valueOf(8));
 		BigInteger x = util.expmod(xx,q);
 		x = pruneXX(x, xx);
 		return x;
@@ -46,12 +46,12 @@ public class Curve {
 		BigInteger returnValue = x;
 
 		BigInteger bla = powInput(x);
-		if(bla.subtract(xx).mod(constants.getq()) != BigInteger.valueOf(0) ) {
+		if(bla.subtract(xx).mod(constants.getqold()) != BigInteger.valueOf(0) ) {
 			BigInteger val =  x.multiply(util.getI());
-			returnValue =val.mod(constants.getq());
+			returnValue =val.mod(constants.getqold());
 		}
 		if(returnValue.mod(BigInteger.valueOf(2)) != BigInteger.valueOf(0)) {
-			returnValue = constants.getq().subtract(returnValue);
+			returnValue = constants.getqold().subtract(returnValue);
 		}
 		return returnValue;
 	}

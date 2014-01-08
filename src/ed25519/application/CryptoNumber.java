@@ -74,6 +74,30 @@ public class CryptoNumber {
 		return this;
 	}
 	
+	public CryptoNumber expmod(CryptoNumber expModulus, CryptoNumber q) {
+		CryptoNumber newValue = expmodRecursive(expModulus, q);
+		value = newValue.getValue();
+		return this;
+	}
+	
+	
+	public CryptoNumber expmodRecursive( CryptoNumber expModulus, CryptoNumber q) {
+		if(expModulus.equals(new CryptoNumber(0))) {
+			return new CryptoNumber(1);
+		}
+		CryptoNumber expCopy = expModulus.copy();
+		CryptoNumber returnValue = expmodRecursive(expCopy.divide(2), q);
+		returnValue.pow(2).mod(q);
+		if(expModulus.testBit(0)) {
+			returnValue.multiply(this).mod(q);
+		}
+		return returnValue;
+	}
+	
+	private boolean testBit(int i) {
+		return value.testBit(i);
+	}
+
 	@Override
 	public String toString() {
 		return String.valueOf(value);
@@ -92,6 +116,12 @@ public class CryptoNumber {
 			}
 		}
 		return false;
+	}
+
+	public CryptoNumber copy() {
+		CryptoNumber copy = new CryptoNumber(0);
+		copy.value = value;
+		return copy;
 	}
 
 //	@Override

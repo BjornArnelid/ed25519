@@ -9,7 +9,7 @@ public class NumberUtils {
 	public NumberUtils(Constants c) {
 		constants = c;
 		//I = expmod(2,(q-1)/4,q)
-		BigInteger primePart = constants.getq().subtract(BigInteger.valueOf(1));
+		BigInteger primePart = constants.getqold().subtract(BigInteger.valueOf(1));
 		i = expmod(BigInteger.valueOf(2),primePart.divide(BigInteger.valueOf(4)));
 	}
 	
@@ -20,10 +20,10 @@ public class NumberUtils {
 		}
 		returnValue = expmod(multiplier, primePart.divide(BigInteger.valueOf(2)));
 		returnValue = returnValue.pow(2);
-		returnValue = returnValue.mod(constants.getq());
+		returnValue = returnValue.mod(constants.getqold());
 		if(primePart.testBit(0)) {
 			returnValue = multiplier.multiply(returnValue);
-			returnValue = returnValue.mod(constants.getq());
+			returnValue = returnValue.mod(constants.getqold());
 		}
 		return returnValue;
 	}
