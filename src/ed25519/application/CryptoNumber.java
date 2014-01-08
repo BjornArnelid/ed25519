@@ -14,26 +14,64 @@ public class CryptoNumber {
 		value = new BigInteger(input);
 	}
 
-	public void subtract(CryptoNumber subtrahend) {
+	public CryptoNumber subtract(CryptoNumber subtrahend) {
 		value = value.subtract(subtrahend.getValue());
+		return this;
 	}
 
-	public void subtract(long subtrahend) {
+	public CryptoNumber subtract(long subtrahend) {
 		value = value.subtract(BigInteger.valueOf(subtrahend));
+		return this;
 	}
 	
-	public void add(CryptoNumber addend) {
+	public CryptoNumber add(CryptoNumber addend) {
 		value = value.add(addend.getValue());
-		
+		return this;
 	}
 
-	public void add(long addend) {
+	public CryptoNumber add(long addend) {
 		value = value.add(BigInteger.valueOf(addend));
-		
+		return this;
 	}
 	
-	public void pow(CryptoNumber exponent) {
+	public CryptoNumber divide(CryptoNumber divisor) {
+		value = value.divide(divisor.getValue());
+		return this;
+	}
+
+	public CryptoNumber divide(long divisor) {
+		value = value.divide(BigInteger.valueOf(divisor));
+		return this;
+	}
+
+	public CryptoNumber multiply(CryptoNumber multiplier) {
+		value = value.multiply(multiplier.getValue());
+		return this;
+	}
+
+	public CryptoNumber multiply(long multiplier) {
+		value = value.multiply(BigInteger.valueOf(multiplier));
+		return this;
+	}
+	
+	public CryptoNumber mod(CryptoNumber modulus) {
+		value = value.mod(modulus.getValue());
+		return this;
+	}
+
+	public CryptoNumber mod(long modulus) {
+		value = value.mod(BigInteger.valueOf(modulus));
+		return this;
+	}
+	
+	public CryptoNumber pow(CryptoNumber exponent) {
 		value = value.pow(exponent.getValue().intValue());
+		return this;
+	}
+	
+	public CryptoNumber pow(long exponent) {
+		value = value.pow((int)exponent);
+		return this;
 	}
 	
 	@Override
