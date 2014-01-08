@@ -29,6 +29,28 @@ public class CryptoNumberTest {
 		Assert.assertNotEquals(first, second);
 	}
 	
+	@DataProvider(name="subtract")
+	public static Object[][] subPrivider() {
+		CryptoNumber one = new CryptoNumber(1);
+		CryptoNumber two = new CryptoNumber(2);
+		CryptoNumber three = new CryptoNumber(3);
+		Object[][] data = {{three, two}, {4, one}};
+		return data;
+	}
+	
+	@Test(dataProvider="subtract")
+	public void testSubtract(Object subtrahend, CryptoNumber expected) {
+		CryptoNumber number = new CryptoNumber(5);
+		if(subtrahend instanceof CryptoNumber) {
+			subtrahend = (CryptoNumber) subtrahend;
+			number.subtract((CryptoNumber)subtrahend);
+		}
+		else {
+			number.subtract((Integer)subtrahend);
+		}
+		Assert.assertEquals(number, expected);
+	}
+	
 	@DataProvider(name="pow")
 	public static Object[][] powProvider() {
 		CryptoNumber one = new CryptoNumber(1);
@@ -45,12 +67,5 @@ public class CryptoNumberTest {
 		Assert.assertEquals(base, expected);
 	}
 	
-	@Test
-	public void testSubtract() {
-		CryptoNumber minuend = new CryptoNumber(2);
-		CryptoNumber subtrahend = new CryptoNumber(1);
-		minuend.subtract(subtrahend);
-		CryptoNumber expected = new CryptoNumber(1);
-		Assert.assertEquals(minuend, expected);
-	}
+
 }

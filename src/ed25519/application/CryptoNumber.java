@@ -14,11 +14,27 @@ public class CryptoNumber {
 		value = new BigInteger(input);
 	}
 
+	public void subtract(CryptoNumber subtrahend) {
+		value = value.subtract(subtrahend.getValue());
+	}
+
+	public void subtract(long subtrahend) {
+		value = value.subtract(BigInteger.valueOf(subtrahend));
+	}
+	
+	public void pow(CryptoNumber exponent) {
+		value = value.pow(exponent.getValue().intValue());
+	}
+	
 	@Override
 	public String toString() {
 		return String.valueOf(value);
 	}
 
+	protected BigInteger getValue() {
+		return value;
+	}
+	
 	@Override
 	public boolean equals(Object aThat) {
 		if(aThat instanceof CryptoNumber) {
@@ -30,20 +46,9 @@ public class CryptoNumber {
 		return false;
 	}
 
-	protected BigInteger getValue() {
-		return value;
-	}
-
 //	@Override
 //	public int hashCode() {
 //		return Long.valueOf(value).hashCode();
 //	}
 
-	public void pow(CryptoNumber exponent) {
-		value = value.pow(exponent.getValue().intValue());
-	}
-
-	public void subtract(CryptoNumber subtrahend) {
-		value = value.subtract(subtrahend.getValue());
-	}
 }
