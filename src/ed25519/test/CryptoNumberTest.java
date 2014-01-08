@@ -201,7 +201,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider = "expmod", dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"})
+	@Test(dataProvider = "expmod", dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, dependsOnGroups = "basics")
 	public void testExpmod(CryptoNumber number, CryptoNumber expModulus, CryptoNumber expected) {
 		CryptoNumber actual = number.copy();
 		Assert.assertEquals(actual.expmod(expModulus, c.getq()), expected);
