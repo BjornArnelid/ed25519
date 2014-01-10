@@ -26,12 +26,6 @@ public class CurveTest {
 		Assert.assertEquals(basePoint, expected);
 	}
 	
-//	@Test(dependsOnMethods = {"ed25519.test.CryptoNumberTest.testInvert", "ed25519.test.ConstantsTest.testGetQ"})
-//	public void testgetD() {
-//		CryptoNumber expected = new CryptoNumber("-4513249062541557337682894930092624173785641285191125241628941591882900924598840740");
-//		Assert.assertEquals(c.getD(), expected);
-//	}
-	
 //	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
 //	public void testEdwards0and0() {
 //		BigPoint first = new BigPoint(new CryptoNumber("0"), new CryptoNumber("0"));

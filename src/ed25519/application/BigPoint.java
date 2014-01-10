@@ -31,8 +31,8 @@ public class BigPoint {
 		input.square();
 		
 		CryptoNumber first = input.copy().subtract(1);
-		
 		CryptoNumber second = input.multiply(c.getD()).add(1).invert();
+		
 		return first.multiply(second);
 	}
 

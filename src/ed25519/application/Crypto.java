@@ -5,17 +5,11 @@ import java.security.NoSuchAlgorithmException;
 
 public class Crypto {
 
-	private Constants constants;
-	private Curve curve;
-	private Hash sha512;
-	
-	public Crypto() throws NoSuchAlgorithmException {
-		constants = Constants.getInstance();
-		curve = new Curve();
-		sha512 = new Hash("SHA-512");
-	}
-
-	public byte[] getPublikKey(byte[] privateKey) {
+	public byte[] getPublikKey(byte[] privateKey)
+			throws NoSuchAlgorithmException {
+		Constants constants = Constants.getInstance();
+		Curve curve = new Curve();
+		Hash sha512 = new Hash("SHA-512");
 		BigInteger n = BigInteger.valueOf(2).pow(256-2);
 		sha512.digest(privateKey);
 			

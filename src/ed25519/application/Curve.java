@@ -2,8 +2,6 @@ package ed25519.application;
 
 public class Curve {
 
-	private CryptoNumber d;
-	
 	public Curve() {
 		
 	}
@@ -13,8 +11,6 @@ public class Curve {
 		CryptoNumber y = new CryptoNumber(4).multiply(tmp);
 		System.out.println(y);
 		return new BigPoint(y);
-//		CryptoNumber x = recoverX(y.copy());
-//		return new BigPoint(x,y);
 	}
 
 //	public BigPoint scalarmult(BigInteger input) {
@@ -38,9 +34,4 @@ public class Curve {
 //	private BigInteger getEdwardY(BigPoint first, BigPoint second) {
 //		return new BigInteger("0");
 //	}
-
-	public Object getD() {
-		return d;
-	}
-
 }

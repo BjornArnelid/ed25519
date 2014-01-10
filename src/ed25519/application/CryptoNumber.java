@@ -5,7 +5,6 @@ import java.math.BigInteger;
 public class CryptoNumber {
 
 	private BigInteger value;
-	//private Constants c;
 
 	public CryptoNumber(long input) {
 		this();
@@ -18,7 +17,6 @@ public class CryptoNumber {
 	}
 	
 	public CryptoNumber() {
-		//c = Constants.getInstance();
 	}
 
 	public CryptoNumber subtract(CryptoNumber subtrahend) {
@@ -81,6 +79,11 @@ public class CryptoNumber {
 		return this;
 	}
 	
+	public CryptoNumber square() {
+		value = value.pow(2);
+		return this;
+	}
+	
 	public CryptoNumber expmod(CryptoNumber expModulus) {
 		CryptoNumber newValue = expmodRecursive(expModulus);
 		value = newValue.getValue();
@@ -106,7 +109,18 @@ public class CryptoNumber {
 		mod(c.getq());
 		return this;
 	}
+	
+	public CryptoNumber copy() {
+		CryptoNumber copy = new CryptoNumber(0);
+		copy.value = value;
+		return copy;
+	}
 
+	public CryptoNumber invert() {
+		Constants c = Constants.getInstance();
+		expmod(c.getq().subtract(2));
+		return this;
+	}
 	private boolean testBit(int i) {
 		return value.testBit(i);
 	}
@@ -130,31 +144,4 @@ public class CryptoNumber {
 		}
 		return false;
 	}
-
-	public CryptoNumber copy() {
-		CryptoNumber copy = new CryptoNumber(0);
-		copy.value = value;
-		return copy;
-	}
-
-	public CryptoNumber invert() {
-		Constants c = Constants.getInstance();
-		expmod(c.getq().subtract(2));
-		return this;
-	}
-	
-//	public CryptoNumber invert(CryptoNumber point) {
-//	return point.expmod(constants.getq().subtract(2), constants.getq());
-//}
-
-	public CryptoNumber square() {
-		value = value.pow(2);
-		return this;
-	}
-
-//	@Override
-//	public int hashCode() {
-//		return Long.valueOf(value).hashCode();
-//	}
-
 }
