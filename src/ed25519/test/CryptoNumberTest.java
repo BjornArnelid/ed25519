@@ -9,20 +9,18 @@ import ed25519.application.Constants;
 import ed25519.application.CryptoNumber;
 
 public class CryptoNumberTest {
-	
-	private Constants c;
 
 	@BeforeClass
 	protected void setUp() throws Exception {
-		c = new Constants();
 	}
 	
 	@DataProvider(name="equals")
 	public static Object[][] equalsProvider() {
+		CryptoNumber zero = new CryptoNumber(0);
 		CryptoNumber stringFive = new CryptoNumber("5");
 		CryptoNumber five = new CryptoNumber(5);
 		CryptoNumber otherFive = new CryptoNumber(5);
-		Object[][] data = {{five, otherFive}, {five, stringFive}};
+		Object[][] data = {{five, otherFive}, {five, stringFive}, {zero, zero.copy()}, {zero, five.copy().subtract(5)}};
 		return data;
 	}
 	
@@ -31,10 +29,16 @@ public class CryptoNumberTest {
 		Assert.assertEquals(first, second);
 	}
 	
-	@Test(groups = {"basics"})
-	public void testNotEquals() {
-		CryptoNumber first = new CryptoNumber(5);
-		CryptoNumber second = new CryptoNumber(8);
+	@DataProvider(name="noequals")
+	public static Object[][] noEqualsProvider() {
+		CryptoNumber five = new CryptoNumber(5);
+		CryptoNumber eight = new CryptoNumber(8);
+		CryptoNumber eightPlusOne = eight.copy().add(1);
+		Object[][] data = {{five, eight}, {eight, eightPlusOne}};
+		return data;
+	}
+	@Test(dataProvider = "noequals", groups = {"basics"})
+	public void testNotEquals(CryptoNumber first, CryptoNumber second) {
 		Assert.assertNotEquals(first, second);
 	}
 	
@@ -128,22 +132,41 @@ public class CryptoNumberTest {
 	
 	@DataProvider(name="mod")
 	public static Object[][] modPrivider() {
+		CryptoNumber zero = new CryptoNumber(0);
 		CryptoNumber one = new CryptoNumber(1);
 		CryptoNumber two = new CryptoNumber(2);
 		CryptoNumber three = new CryptoNumber(3);
-		Object[][] data = {{three, two}, {4, one}};
+		CryptoNumber five = new CryptoNumber(5);
+		CryptoNumber large = new CryptoNumber("19681161376707505956807079304988542015446066515923890162744021073123829784752");
+		Object[][] data = {{five.copy(), three, two}, {five.copy(), 4, one}, {large, two, zero}};
 		return data;
 	}
 	
 	@Test(dataProvider="mod", groups = {"basics"})
-	public void testModulus(Object modulus, CryptoNumber expected) {
-		CryptoNumber number = new CryptoNumber(5);
+	public void testModulus(CryptoNumber number, Object modulus, CryptoNumber expected) {
 		if(modulus instanceof CryptoNumber) {
 			Assert.assertEquals(number.mod((CryptoNumber)modulus), expected);
 		}
 		else {
 			Assert.assertEquals(number.mod((Integer)modulus), expected);
 		}
+		Assert.assertEquals(number, expected);
+	}
+	
+	@DataProvider(name="modQ")
+	public static Object[][] modQPrivider() {
+		Constants c = Constants.getInstance();
+		CryptoNumber one = new CryptoNumber(1);
+		CryptoNumber hundred = new CryptoNumber(100);
+		CryptoNumber qPlusOne = c.getq().add(1);
+		CryptoNumber qPlusHundred = c.getq().add(100);
+		Object[][] data = {{one.copy(), one}, {qPlusOne, one}, {qPlusHundred, hundred}};
+		return data;
+	}
+	
+	@Test(dataProvider="modQ", groups = {"basics"})
+	public void testModulusQ(CryptoNumber number, CryptoNumber expected) {
+		Assert.assertEquals(number.modQ(), expected);
 		Assert.assertEquals(number, expected);
 	}
 	
@@ -181,19 +204,21 @@ public class CryptoNumberTest {
 	
 	@DataProvider(name = "expmod")
 	public static Object[][] expmodProvider() {
-		Constants c = new Constants();
+		Constants c = Constants.getInstance();
+		CryptoNumber minusOne = new CryptoNumber(-1);
 		CryptoNumber zero = new CryptoNumber(0);
 		CryptoNumber one = new CryptoNumber(1);
 		CryptoNumber two = new CryptoNumber(2);
 		CryptoNumber three = new CryptoNumber(3);
 		CryptoNumber four = new CryptoNumber(4);
 		CryptoNumber twentyseven = new CryptoNumber(27);
+		CryptoNumber qPart = (c.getq().add(3)).divide(8);
 		CryptoNumber halfq = c.getq().divide(2);
 		CryptoNumber qplusone = c.getq().add(1);
 		CryptoNumber large1 =new CryptoNumber("43422033463993573283839119378257965444976244249615211514796594002967423614962");
 		CryptoNumber large2 = new CryptoNumber("36185027886661311069865932815214971204146870208012676262330495002472853012468");
 		CryptoNumber large3 = new CryptoNumber("39803530675327442176852526096736468324561557228813943888563544502720138313715");
-		Object[][] data = new Object[][] {{one, zero, one}, {one, one, one},
+		Object[][] data = new Object[][] {{minusOne, qPart, one}, {one, zero, one}, {one, one, one},
 				{two, one, two}, {qplusone, one, one}, {one, two, one},
 				{two, two, four}, {halfq, two, large1},
 				{three, three, twentyseven}, {halfq, three, large2},
@@ -201,10 +226,41 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider = "expmod", dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"}, dependsOnGroups = "basics")
+	@Test(dataProvider = "expmod", dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ"}, dependsOnGroups = "basics")
 	public void testExpmod(CryptoNumber number, CryptoNumber expModulus, CryptoNumber expected) {
 		CryptoNumber actual = number.copy();
-		Assert.assertEquals(actual.expmod(expModulus, c.getq()), expected);
+		Assert.assertEquals(actual.expmod(expModulus), expected);
 		Assert.assertEquals(actual, expected);
+	}
+	
+	@DataProvider(name = "invert")
+	public static Object[][] invertProvider() {
+		CryptoNumber one = new CryptoNumber(1);
+		CryptoNumber five = new CryptoNumber(5);
+		CryptoNumber large1 = new CryptoNumber("11579208923731619542357098500868790785326998466564056403945758400791312963990");
+		Object[][] data = {{one, one}, {five, large1}};
+		return data;
+	}
+	
+	@Test(dataProvider = "invert", dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ", "testExpmod"}, dependsOnGroups = {"basics"}, groups = {"invert"})
+	public void testInvert(CryptoNumber value, CryptoNumber expected) {
+		Assert.assertEquals(value.invert(), expected);
+	}
+	
+	@DataProvider(name = "square")
+	public static Object[][] squareProvider() {
+		Constants c = Constants.getInstance();
+		CryptoNumber one = new CryptoNumber(1);
+		CryptoNumber three = new CryptoNumber(3);
+		CryptoNumber nine = new CryptoNumber(9);
+		CryptoNumber q = c.getq();
+		CryptoNumber large = new CryptoNumber("3351951982485649274893506249551461531869841455148098344430890360930441007516186694504959566828678008207342894297409383004791299986236948390458062788362601");
+		Object[][] data = {{one, one}, {three, nine}, {q, large}};
+		return data;
+	}
+	
+	@Test(dataProvider = "square", groups = {"basics"})
+	public void testSquare(CryptoNumber number, CryptoNumber expected) {
+		Assert.assertEquals(number.square(), expected);
 	}
 }

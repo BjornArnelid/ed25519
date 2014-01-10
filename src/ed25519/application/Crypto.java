@@ -10,7 +10,7 @@ public class Crypto {
 	private Hash sha512;
 	
 	public Crypto() throws NoSuchAlgorithmException {
-		constants = new Constants();
+		constants = Constants.getInstance();
 		curve = new Curve();
 		sha512 = new Hash("SHA-512");
 	}

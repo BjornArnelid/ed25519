@@ -1,36 +1,67 @@
 package ed25519.application;
 
-import java.math.BigInteger;
-
 public class BigPoint {
-	private Constants constants;
-	private BigInteger x;
-	private BigInteger y;
-	
-	public BigPoint(BigInteger first, BigInteger second) {
-		this();
-		setX(first);
-		setY(second);
-	}
+	private CryptoNumber x;
+	private CryptoNumber y;
 
 	public BigPoint() {
-		constants = new Constants();
+
 	}
 
-	public BigInteger getY() {
-		return y;
+	public BigPoint(CryptoNumber xValue, CryptoNumber yValue) {
+		this();
+		setX(xValue);
+		setY(yValue);
 	}
 
-	public BigInteger getX() {
+	public BigPoint(CryptoNumber yValue) {
+		this();
+		Constants c = Constants.getInstance();
+		
+		CryptoNumber xx = getXX(yValue.copy());
+		CryptoNumber qPart = c.getq().add(3).divide(8);
+		CryptoNumber x = xx.copy().expmod(qPart);
+		
+		setX(pruneXX(x, xx));
+		setY(yValue);
+	}
+	
+	private CryptoNumber getXX(CryptoNumber input) {
+		Constants c = Constants.getInstance();
+		input.square();
+		
+		CryptoNumber first = input.copy().subtract(1);
+		
+		CryptoNumber second = input.multiply(c.getD()).add(1).invert();
+		return first.multiply(second);
+	}
+
+	private CryptoNumber pruneXX(CryptoNumber x, CryptoNumber xx) {
+		Constants c = Constants.getInstance();
+		CryptoNumber zero = new CryptoNumber(0);
+		if(!x.copy().square().subtract(xx).modQ().equals(zero)) {
+			x.multiply(c.getI()).modQ();
+		}
+		if(!x.copy().mod(2).equals(zero)) {
+			x = c.getq().subtract(x);
+		}
 		return x;
 	}
 	
-	public void setX(BigInteger x) {
-		this.x = x.mod(constants.getqold());
+	public void setY(CryptoNumber yValue) {
+		y = yValue.modQ();	
 	}
 
-	public void setY(BigInteger y) {
-		this.y = y.mod(constants.getqold());
+	public void setX(CryptoNumber xValue) {
+		x = xValue.modQ();
+	}
+	
+	public Object getX() {
+		return x;
+	}
+	
+	public Object getY() {
+		return y;
 	}
 	
 	@Override
@@ -43,7 +74,7 @@ public class BigPoint {
 		}
 		return false;
 	}
-	
+
 	public String toString() {
 		return x.toString() + ", " + y.toString();
 	}

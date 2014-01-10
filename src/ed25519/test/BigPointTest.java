@@ -1,42 +1,80 @@
 package ed25519.test;
 
-import java.math.BigInteger;
-
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import ed25519.application.BigPoint;
+import ed25519.application.CryptoNumber;
 
 public class BigPointTest {
 	
-	@Test(groups = {"bigpoint"})
+	@Test(groups = {"bigpoint"}, dependsOnGroups = {"basics"})
 	public void testBigPointEquals() {
-		BigPoint first = new BigPoint(BigInteger.valueOf(1), BigInteger.valueOf(2));
-		BigPoint second = new BigPoint(BigInteger.valueOf(1), BigInteger.valueOf(2));
+		BigPoint first = new BigPoint(new CryptoNumber(1), new CryptoNumber(2));
+		BigPoint second = new BigPoint(new CryptoNumber(1), new CryptoNumber(2));
 		Assert.assertEquals(first,second);
 	}
 	
-	@Test(groups = {"bigpoint"})
+	@Test(groups = {"bigpoint"}, dependsOnGroups = {"basics"})
 	public void testBigPointNotEquals() {
-		BigPoint first = new BigPoint(BigInteger.valueOf(1), BigInteger.valueOf(2));
-		BigPoint second = new BigPoint(BigInteger.valueOf(3), BigInteger.valueOf(4));
+		BigPoint first = new BigPoint(new CryptoNumber(1), new CryptoNumber(2));
+		BigPoint second = new BigPoint(new CryptoNumber(3), new CryptoNumber(4));
 		Assert.assertNotEquals(first, second);
 	}
 	
-	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"})
+	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ"})
 	public void testXMod() {
-		BigInteger expected = new BigInteger("1");
+		CryptoNumber expected = new CryptoNumber(1);
 		BigPoint point = new BigPoint();
-		point.setX(new BigInteger("57896044618658097711785492504343953926634992332820282019728792003956564819950"));
+		point.setX(new CryptoNumber("57896044618658097711785492504343953926634992332820282019728792003956564819950"));
 		Assert.assertEquals(point.getX(), expected);
 	}
 	
-	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testBigPrime"})
+	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ"})
 	public void testYMod() {
-		BigInteger expected = new BigInteger("1");
+		CryptoNumber expected = new CryptoNumber(1);
 		BigPoint point = new BigPoint();
-		point.setY(new BigInteger("57896044618658097711785492504343953926634992332820282019728792003956564819950"));
+		point.setY(new CryptoNumber("57896044618658097711785492504343953926634992332820282019728792003956564819950"));
 		Assert.assertEquals(point.getY(), expected);
+	}
+	
+//	@DataProvider(name = "getxx")
+//	public static Object[][] getxxProvider() {
+//		CryptoNumber minusOne = new CryptoNumber(-1);
+//		CryptoNumber zero = new CryptoNumber(0);
+//		CryptoNumber one = new CryptoNumber(1);
+//		CryptoNumber two =new CryptoNumber(2);
+//		CryptoNumber large1 = new CryptoNumber("159238947029881800007354471772647911766795077324544932017472991350137141588898");
+//		Object[][] data = {{minusOne, zero}, {one, zero}, {two, large1}};
+//		return data;
+//	}
+//	
+//	@Test(dataProvider = "getxx", dependsOnMethods = {"ed25519.test.CryptoNumberTest.testExpmod", "ed25519.test.ConstantsTest.testGetD"}, dependsOnGroups = "basics")
+//	public void testGetXX(CryptoNumber value, CryptoNumber expected) {
+//		BigPoint p =new BigPoint(new CryptoNumber(0), value);
+//		Assert.assertEquals(p.getXX(value), expected);
+//	}
+
+	@DataProvider(name = "fromY")
+	public static Object[][] fromYProvider() {
+		CryptoNumber minusOne = new CryptoNumber(-1);
+		CryptoNumber zero = new CryptoNumber(0);
+		CryptoNumber one = new CryptoNumber(1);
+		CryptoNumber two = new CryptoNumber(2);
+		CryptoNumber four = new CryptoNumber(4);
+		CryptoNumber large1 = new CryptoNumber("19681161376707505956807079304988542015446066515923890162744021073123829784752");
+		CryptoNumber large2 = new CryptoNumber("15185035556283238358358299567679723596735194429604445868805687310551713597428");
+		CryptoNumber large3 = new CryptoNumber("26193273134124080442446118532604303931175156347221147955160486408041496074798");
+		CryptoNumber large4 = new CryptoNumber("46316835694926478169428394003475163141307993866256225615783033603165251855960");
+		CryptoNumber large5 = new CryptoNumber("15112221349535400772501151409588531511454012693041857206046113283949847762202");
+		Object[][] data = {{minusOne, zero}, {zero.copy(), large1}, {one, zero}, {two, large2}, {four, large3}, {large4, large5}};
+		return data;
+	}
+	
+	@Test(dataProvider = "fromY", dependsOnMethods = {"ed25519.test.CryptoNumberTest.testExpmod", "ed25519.test.ConstantsTest.testGetD", "ed25519.test.ConstantsTest.testGetI"})
+	public void testgetPointfromY(CryptoNumber value, CryptoNumber expected) {
+		Assert.assertEquals(new BigPoint(value).getX(), expected);
 	}
 
 }

@@ -5,13 +5,20 @@ import java.math.BigInteger;
 public class CryptoNumber {
 
 	private BigInteger value;
+	//private Constants c;
 
 	public CryptoNumber(long input) {
+		this();
 		value = BigInteger.valueOf(input);
 	}
 	
 	public CryptoNumber(String input) {
+		this();
 		value = new BigInteger(input);
+	}
+	
+	public CryptoNumber() {
+		//c = Constants.getInstance();
 	}
 
 	public CryptoNumber subtract(CryptoNumber subtrahend) {
@@ -74,26 +81,32 @@ public class CryptoNumber {
 		return this;
 	}
 	
-	public CryptoNumber expmod(CryptoNumber expModulus, CryptoNumber q) {
-		CryptoNumber newValue = expmodRecursive(expModulus, q);
+	public CryptoNumber expmod(CryptoNumber expModulus) {
+		CryptoNumber newValue = expmodRecursive(expModulus);
 		value = newValue.getValue();
 		return this;
 	}
 	
 	
-	public CryptoNumber expmodRecursive( CryptoNumber expModulus, CryptoNumber q) {
+	public CryptoNumber expmodRecursive( CryptoNumber expModulus) {
 		if(expModulus.equals(new CryptoNumber(0))) {
 			return new CryptoNumber(1);
 		}
 		CryptoNumber expCopy = expModulus.copy();
-		CryptoNumber returnValue = expmodRecursive(expCopy.divide(2), q);
-		returnValue.pow(2).mod(q);
+		CryptoNumber returnValue = expmodRecursive(expCopy.divide(2));
+		returnValue.pow(2).modQ();
 		if(expModulus.testBit(0)) {
-			returnValue.multiply(this).mod(q);
+			returnValue.multiply(this).modQ();
 		}
 		return returnValue;
 	}
 	
+	public CryptoNumber modQ() {
+		Constants c = Constants.getInstance();
+		mod(c.getq());
+		return this;
+	}
+
 	private boolean testBit(int i) {
 		return value.testBit(i);
 	}
@@ -122,6 +135,21 @@ public class CryptoNumber {
 		CryptoNumber copy = new CryptoNumber(0);
 		copy.value = value;
 		return copy;
+	}
+
+	public CryptoNumber invert() {
+		Constants c = Constants.getInstance();
+		expmod(c.getq().subtract(2));
+		return this;
+	}
+	
+//	public CryptoNumber invert(CryptoNumber point) {
+//	return point.expmod(constants.getq().subtract(2), constants.getq());
+//}
+
+	public CryptoNumber square() {
+		value = value.pow(2);
+		return this;
 	}
 
 //	@Override

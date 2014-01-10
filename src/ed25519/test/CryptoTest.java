@@ -10,7 +10,7 @@ import ed25519.application.Crypto;
 
 public class CryptoTest {
 
-	@Test
+	@Test(dependsOnGroups= "constants")
 	public void testCreateCrypto() throws NoSuchAlgorithmException {
 		Crypto crypto = new Crypto();
 		Assert.assertNotNull(crypto);
