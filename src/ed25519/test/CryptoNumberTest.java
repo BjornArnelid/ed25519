@@ -242,7 +242,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider = "invert", dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ", "testExpmod"}, dependsOnGroups = {"basics"}, groups = {"invert"})
+	@Test(dataProvider = "invert", dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ", "testExpmod"}, dependsOnGroups = {"basics"})
 	public void testInvert(CryptoNumber value, CryptoNumber expected) {
 		Assert.assertEquals(value.invert(), expected);
 	}

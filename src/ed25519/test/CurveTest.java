@@ -26,20 +26,26 @@ public class CurveTest {
 		Assert.assertEquals(basePoint, expected);
 	}
 	
-//	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
-//	public void testEdwards0and0() {
-//		BigPoint first = new BigPoint(new CryptoNumber("0"), new CryptoNumber("0"));
-//		BigPoint second = new BigPoint(new CryptoNumber("0"), new CryptoNumber("0"));
-//		BigPoint expected = new BigPoint(new CryptoNumber("0"), new CryptoNumber("0"));
-//		BigPoint result = c.edwards(first, second);
-//		Assert.assertEquals(result, expected);
-//	}
+	@DataProvider(name = "edwards")
+	public static Object[][] edwardsProvider() {
+		BigPoint zero = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
+		BigPoint one = new BigPoint(new CryptoNumber(1), new CryptoNumber(1));
+		BigPoint result2 = new BigPoint(new CryptoNumber("243332"), new CryptoNumber("51380297829790456491237162401597246033761091082941378702394490295467508647106"));
+		Object[][] data = {{zero.copy(), zero.copy(), zero}, {one.copy(), one.copy(), result2}};
+		return data;
+	}
+	
+	@Test(dataProvider= "edwards", dependsOnGroups = {"bigpoint"}, dependsOnMethods = "ed25519.test.CryptoNumberTest.testInvert", groups = {"edward"})
+	public void testEdwards(BigPoint first, BigPoint second, BigPoint expected) {
+		BigPoint result = c.edwards(first, second);
+		Assert.assertEquals(result, expected);
+	}
 	
 //	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
 //	public void testEdwards1and1() {
 //		BigPoint first = new BigPoint(new BigInteger("1"), new BigInteger("1"));
 //		BigPoint second = new BigPoint(new BigInteger("1"), new BigInteger("1"));
-//		BigPoint expected = new BigPoint(new BigInteger("243332"), new BigInteger("51380297829790456491237162401597246033761091082941378702394490295467508647106"));
+//		BigPoint expected = 
 //		BigPoint result = c.edwards(first, second);
 //		Assert.assertEquals(result, expected);
 //	}

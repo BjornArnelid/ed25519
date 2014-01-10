@@ -19,19 +19,23 @@ public class Curve {
 //		return new BigPoint(x, y);
 //	}
 //
-//	public BigPoint edwards(BigPoint first, BigPoint second) {
-//		BigInteger x = getEdwardX(first, second);
-//		BigInteger y = getEdwardY(first, second);
-//		return new BigPoint(x, y);
-//	}
-//	
-//	private BigInteger getEdwardX(BigPoint first, BigPoint second) {
-//		BigInteger part1 = first.getX().add(second.getX());
-//		BigInteger part2 = invert(new BigInteger("0"));
-//		return part1.multiply(part2);
-//	}
-//
-//	private BigInteger getEdwardY(BigPoint first, BigPoint second) {
-//		return new BigInteger("0");
-//	}
+	public BigPoint edwards(BigPoint first, BigPoint second) {
+		CryptoNumber x = getEdwardX(first.copy(), second.copy());
+		CryptoNumber y = getEdwardY(first.copy(), second.copy());
+		return new BigPoint(x, y);
+	}
+	
+	private CryptoNumber getEdwardX(BigPoint first, BigPoint second) {
+		Constants c = Constants.getInstance();
+		CryptoNumber part1 = first.getX().add(second.getX());
+		CryptoNumber part2 = new CryptoNumber(1).add(c.getD()).invert();
+		return part1.multiply(part2);
+	}
+
+	private CryptoNumber getEdwardY(BigPoint first, BigPoint second) {
+		Constants c = Constants.getInstance();
+		CryptoNumber part1 = first.getY().add(first.getX());
+		CryptoNumber part2 = new CryptoNumber(1).subtract(c.getD()).invert();
+		return part1.multiply(part2);
+	}
 }

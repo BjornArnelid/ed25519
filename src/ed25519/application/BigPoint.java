@@ -56,11 +56,11 @@ public class BigPoint {
 		x = xValue.modQ();
 	}
 	
-	public Object getX() {
+	public CryptoNumber getX() {
 		return x;
 	}
 	
-	public Object getY() {
+	public CryptoNumber getY() {
 		return y;
 	}
 	
@@ -77,5 +77,9 @@ public class BigPoint {
 
 	public String toString() {
 		return x.toString() + ", " + y.toString();
+	}
+
+	public BigPoint copy() {
+		return new BigPoint(getX().copy(), getY().copy());
 	}
 }

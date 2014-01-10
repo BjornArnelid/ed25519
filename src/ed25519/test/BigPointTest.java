@@ -38,24 +38,15 @@ public class BigPointTest {
 		point.setY(new CryptoNumber("57896044618658097711785492504343953926634992332820282019728792003956564819950"));
 		Assert.assertEquals(point.getY(), expected);
 	}
-	
-//	@DataProvider(name = "getxx")
-//	public static Object[][] getxxProvider() {
-//		CryptoNumber minusOne = new CryptoNumber(-1);
-//		CryptoNumber zero = new CryptoNumber(0);
-//		CryptoNumber one = new CryptoNumber(1);
-//		CryptoNumber two =new CryptoNumber(2);
-//		CryptoNumber large1 = new CryptoNumber("159238947029881800007354471772647911766795077324544932017472991350137141588898");
-//		Object[][] data = {{minusOne, zero}, {one, zero}, {two, large1}};
-//		return data;
-//	}
-//	
-//	@Test(dataProvider = "getxx", dependsOnMethods = {"ed25519.test.CryptoNumberTest.testExpmod", "ed25519.test.ConstantsTest.testGetD"}, dependsOnGroups = "basics")
-//	public void testGetXX(CryptoNumber value, CryptoNumber expected) {
-//		BigPoint p =new BigPoint(new CryptoNumber(0), value);
-//		Assert.assertEquals(p.getXX(value), expected);
-//	}
 
+	@Test(groups = "bigpoint")
+	public void testCopy() {
+		BigPoint original = new BigPoint(new CryptoNumber(1), new CryptoNumber(1));
+		BigPoint copy = original.copy();
+		Assert.assertNotSame(original.getX(), copy.getX());
+		Assert.assertNotSame(original.getY(), copy.getY());
+	}
+	
 	@DataProvider(name = "fromY")
 	public static Object[][] fromYProvider() {
 		CryptoNumber minusOne = new CryptoNumber(-1);
