@@ -27,7 +27,10 @@ public class Curve {
 	
 	private CryptoNumber getEdwardX(BigPoint first, BigPoint second) {
 		Constants c = Constants.getInstance();
-		CryptoNumber part1 = first.getX().add(second.getX());
+		
+		CryptoNumber part1 = first.getX().multiply(second.getY());
+		part1.add(second.getX().multiply(first.getY()));
+		
 		CryptoNumber part2 = new CryptoNumber(1).add(c.getD()).invert();
 		return part1.multiply(part2);
 	}
