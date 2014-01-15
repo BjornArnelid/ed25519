@@ -9,7 +9,6 @@ public class Curve {
 	public BigPoint getBasePoint() {
 		CryptoNumber tmp = new CryptoNumber(5).invert();
 		CryptoNumber y = new CryptoNumber(4).multiply(tmp);
-		System.out.println(y);
 		return new BigPoint(y);
 	}
 
@@ -21,7 +20,7 @@ public class Curve {
 //
 	public BigPoint edwards(BigPoint first, BigPoint second) {
 		CryptoNumber x = getEdwardX(first.copy(), second.copy());
-		CryptoNumber y = getEdwardY(first.copy(), second.copy());
+		CryptoNumber y = getEdwardY(first, second);
 		return new BigPoint(x, y);
 	}
 	
@@ -36,9 +35,20 @@ public class Curve {
 	}
 
 	private CryptoNumber getEdwardY(BigPoint first, BigPoint second) {
-		Constants c = Constants.getInstance();
-		CryptoNumber part1 = first.getY().add(first.getX());
-		CryptoNumber part2 = new CryptoNumber(1).subtract(c.getD()).invert();
+		CryptoNumber part1 = first.getY().copy().multiply(second.getY());
+		part1.add(first.getX().multiply(second.getX()));
+		
+		CryptoNumber part2 = edwardsMultiply(first, second).invert();
 		return part1.multiply(part2);
+	}
+
+	private CryptoNumber edwardsMultiply(BigPoint first, BigPoint second) {
+		Constants c = Constants.getInstance();
+		CryptoNumber result = new CryptoNumber(1);
+		CryptoNumber subtrahend = c.getD();
+		
+		subtrahend.multiply(first.getX()).multiply(first.getY());
+		subtrahend.multiply(second.getX()).multiply(second.getY());
+		return result.subtract(subtrahend);
 	}
 }

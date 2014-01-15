@@ -32,7 +32,10 @@ public class CurveTest {
 		BigPoint one = new BigPoint(new CryptoNumber(1), new CryptoNumber(1));
 		BigPoint result2 = new BigPoint(new CryptoNumber("243332"), new CryptoNumber("51380297829790456491237162401597246033761091082941378702394490295467508647106"));
 		//BigPoint result3 = new BigPoint();
-		Object[][] data = {{zero.copy(), zero.copy(), zero}, {one.copy(), one.copy(), result2}, {zero.copy(), one.copy(), zero}};
+		Object[][] data = {{zero.copy(), zero.copy(), zero},
+				{one.copy(), one.copy(),result2},
+				{zero.copy(), one.copy(), zero},
+				{one.copy(), zero.copy(), zero}};
 		return data;
 	}
 	
