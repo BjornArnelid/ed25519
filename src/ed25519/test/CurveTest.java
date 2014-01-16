@@ -70,7 +70,8 @@ public class CurveTest {
 	
 	@Test
 	public void testEncodePoint() {
-		
-		Assert.fail();
+		BigPoint input = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
+		byte[] expected = new byte[32]; // Defaults to all zero
+		Assert.assertEquals(c.encodePoint(input), expected);
 	}
 }

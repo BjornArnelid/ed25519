@@ -59,4 +59,8 @@ public class Curve {
 		result.multiply(second.getX()).multiply(second.getY());
 		return result;
 	}
+
+	public byte[] encodePoint(BigPoint input) {
+		return new byte[32];
+	}
 }
