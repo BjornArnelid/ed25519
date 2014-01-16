@@ -28,7 +28,6 @@ public class CurveTest {
 	
 	@DataProvider(name = "edwards")
 	public static Object[][] edwardsProvider() {
-		
 		BigPoint zero = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
 		BigPoint zeroOne = new BigPoint(new CryptoNumber(0), new CryptoNumber(1));
 		BigPoint oneZero = new BigPoint(new CryptoNumber(1), new CryptoNumber(0));
@@ -46,18 +45,24 @@ public class CurveTest {
 		return data;
 	}
 	
-	@Test(dataProvider= "edwards", dependsOnGroups = {"bigpoint"}, dependsOnMethods = "ed25519.test.CryptoNumberTest.testInvert", groups = {"edward"})
+	@Test(dataProvider= "edwards", dependsOnGroups = {"bigpoint"}, dependsOnMethods = "ed25519.test.CryptoNumberTest.testInvert")
 	public void testEdwards(BigPoint first, BigPoint second, BigPoint expected) {
 		BigPoint result = c.edwards(first, second);
 		Assert.assertEquals(result, expected);
 	}
 
-//	@Test(dependsOnGroups = {"bigpoint"})
-//	public void testScalarMult0() {
-//		CryptoNumber expected = new BigPoint(new BigInteger("0"), new BigInteger("1"));
-//		CryptoNumber result = c.scalarmult(new BigInteger("0"));
-//		Assert.assertEquals(result, expected);
-//	}
+	@DataProvider(name = "scalar")
+	public static Object[][] scalarProvider() {
+		BigPoint result1 = new BigPoint(new CryptoNumber("0"), new CryptoNumber("1"));
+		Object[][] data = {{new CryptoNumber("0"), result1}};
+		return data;
+	}
+	
+	@Test(dataProvider = "scalar", dependsOnGroups = {"bigpoint"}, dependsOnMethods = "testEdwards")
+	public void testScalarMult0(CryptoNumber input, BigPoint expected) {
+		BigPoint result = c.scalarmult(input);
+		Assert.assertEquals(result, expected);
+	}
 	
 //	public void testScalarMult1() {
 //		BigInteger x = new BigInteger("15112221349535400772501151409588531511454012693041857206046113283949847762202");

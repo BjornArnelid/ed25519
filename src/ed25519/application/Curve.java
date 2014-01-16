@@ -12,12 +12,12 @@ public class Curve {
 		return new BigPoint(y);
 	}
 
-//	public BigPoint scalarmult(BigInteger input) {
-//		BigInteger x = new BigInteger("0");
-//		BigInteger y = new BigInteger("1");
-//		return new BigPoint(x, y);
-//	}
-//
+	public BigPoint scalarmult(CryptoNumber input) {
+		CryptoNumber x = new CryptoNumber("0");
+		CryptoNumber y = new CryptoNumber("1");
+		return new BigPoint(x, y);
+	}
+
 	public BigPoint edwards(BigPoint first, BigPoint second) {
 		CryptoNumber x = getEdwardX(first.copy(), second.copy());
 		CryptoNumber y = getEdwardY(first, second);
