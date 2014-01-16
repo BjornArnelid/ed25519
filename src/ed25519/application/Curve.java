@@ -13,9 +13,15 @@ public class Curve {
 	}
 
 	public BigPoint scalarmult(CryptoNumber input) {
-		CryptoNumber x = new CryptoNumber("0");
-		CryptoNumber y = new CryptoNumber("1");
-		return new BigPoint(x, y);
+		if(input.equals(new CryptoNumber(0))) {
+			return new BigPoint(new CryptoNumber("0"), new CryptoNumber("1"));
+		}
+		BigPoint tmp = scalarmult(input.copy().divide(2));
+		BigPoint returnValue = edwards(tmp.copy(), tmp.copy());
+		if(input.testBit(0)){
+			returnValue = edwards(returnValue, getBasePoint());
+		}
+		return returnValue;
 	}
 
 	public BigPoint edwards(BigPoint first, BigPoint second) {

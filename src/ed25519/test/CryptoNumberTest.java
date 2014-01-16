@@ -88,17 +88,18 @@ public class CryptoNumberTest {
 	
 	@DataProvider(name="div")
 	public static Object[][] divPrivider() {
+		CryptoNumber zero = new CryptoNumber(0);
 		CryptoNumber four = new CryptoNumber(4);
 		CryptoNumber five = new CryptoNumber(5);
 		CryptoNumber ten = new CryptoNumber(10);
-
-		Object[][] data = {{five, four}, {2, ten}};
+		CryptoNumber twenty = new CryptoNumber(20);
+		Object[][] data = {{twenty.copy(), five, four}, {twenty.copy(), 2, ten},
+				{zero.copy(), 2, zero}};
 		return data;
 	}
 	
 	@Test(dataProvider="div", groups = {"basics"})
-	public void testDivision(Object divisor, CryptoNumber expected) {
-		CryptoNumber number = new CryptoNumber(20);
+	public void testDivision(CryptoNumber number, Object divisor, CryptoNumber expected) {
 		if(divisor instanceof CryptoNumber) {
 			Assert.assertEquals(number.divide((CryptoNumber)divisor), expected);
 		}
@@ -262,5 +263,17 @@ public class CryptoNumberTest {
 	@Test(dataProvider = "square", groups = {"basics"})
 	public void testSquare(CryptoNumber number, CryptoNumber expected) {
 		Assert.assertEquals(number.square(), expected);
+	}
+	
+	@Test(groups = "testbit")
+	public void testTestBitTrue() {
+		CryptoNumber number = new CryptoNumber(1);
+		Assert.assertTrue(number.testBit(0));
+	}
+	
+	@Test(groups = "testbit")
+	public void testTestBitFalse() {
+		CryptoNumber number = new CryptoNumber(0);
+		Assert.assertFalse(number.testBit(0));
 	}
 }

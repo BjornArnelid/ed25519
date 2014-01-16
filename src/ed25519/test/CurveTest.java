@@ -54,21 +54,17 @@ public class CurveTest {
 	@DataProvider(name = "scalar")
 	public static Object[][] scalarProvider() {
 		BigPoint result1 = new BigPoint(new CryptoNumber("0"), new CryptoNumber("1"));
-		Object[][] data = {{new CryptoNumber("0"), result1}};
+		BigPoint result2 = new BigPoint(new CryptoNumber("15112221349535400772501151409588531511454012693041857206046113283949847762202"), new CryptoNumber("46316835694926478169428394003475163141307993866256225615783033603165251855960"));
+		BigPoint result3 = new BigPoint(new CryptoNumber("24727413235106541002554574571675588834622768167397638456726423682521233608206"), new CryptoNumber("15549675580280190176352668710449542251549572066445060580507079593062643049417"));
+		Object[][] data = {{new CryptoNumber(0), result1},
+				{new CryptoNumber(1), result2},
+				{new CryptoNumber(2), result3}};
 		return data;
 	}
 	
-	@Test(dataProvider = "scalar", dependsOnGroups = {"bigpoint"}, dependsOnMethods = "testEdwards")
+	@Test(dataProvider = "scalar", dependsOnGroups = {"bigpoint","basics","testbit"}, dependsOnMethods = {"testEdwards", "testGetBasePoint"})
 	public void testScalarMult0(CryptoNumber input, BigPoint expected) {
 		BigPoint result = c.scalarmult(input);
 		Assert.assertEquals(result, expected);
 	}
-	
-//	public void testScalarMult1() {
-//		BigInteger x = new BigInteger("15112221349535400772501151409588531511454012693041857206046113283949847762202");
-//		BigInteger y = new BigInteger("46316835694926478169428394003475163141307993866256225615783033603165251855960");
-//		BigPoint expected = new BigPoint(x, y);
-//		BigPoint result = c.scalarmult(new BigInteger("1"));
-//		assertEquals(expected, result);
-//	}
 }

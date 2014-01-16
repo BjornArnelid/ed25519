@@ -121,7 +121,8 @@ public class CryptoNumber {
 		expmod(c.getq().subtract(2));
 		return this;
 	}
-	private boolean testBit(int i) {
+	
+	public boolean testBit(int i) {
 		return value.testBit(i);
 	}
 
