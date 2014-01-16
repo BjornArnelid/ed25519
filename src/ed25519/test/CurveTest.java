@@ -28,17 +28,21 @@ public class CurveTest {
 	
 	@DataProvider(name = "edwards")
 	public static Object[][] edwardsProvider() {
+		
 		BigPoint zero = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
 		BigPoint zeroOne = new BigPoint(new CryptoNumber(0), new CryptoNumber(1));
 		BigPoint oneZero = new BigPoint(new CryptoNumber(1), new CryptoNumber(0));
 		BigPoint one = new BigPoint(new CryptoNumber(1), new CryptoNumber(1));
-		BigPoint result2 = new BigPoint(new CryptoNumber("243332"), new CryptoNumber("51380297829790456491237162401597246033761091082941378702394490295467508647106"));
-		//BigPoint result3 = new BigPoint();
+		BigPoint base = new BigPoint(new CryptoNumber("15112221349535400772501151409588531511454012693041857206046113283949847762202"), new CryptoNumber("46316835694926478169428394003475163141307993866256225615783033603165251855960"));
+		BigPoint result1 = new BigPoint(new CryptoNumber("243332"), new CryptoNumber("51380297829790456491237162401597246033761091082941378702394490295467508647106"));
+		BigPoint result2 = new BigPoint(new CryptoNumber("24727413235106541002554574571675588834622768167397638456726423682521233608206"), new CryptoNumber("15549675580280190176352668710449542251549572066445060580507079593062643049417"));
 		Object[][] data = {{zero.copy(), zero.copy(), zero},
-				{one.copy(), one.copy(),result2},
+				{one.copy(), one.copy(),result1},
 				{zero.copy(), one.copy(), zero},
 				{one.copy(), zero.copy(), zero},
-				{zeroOne.copy(), oneZero.copy(), oneZero}};
+				{zeroOne.copy(), oneZero.copy(), oneZero},
+				{oneZero.copy(), zeroOne.copy(), oneZero},
+				{base.copy(), base.copy(), result2}};
 		return data;
 	}
 	

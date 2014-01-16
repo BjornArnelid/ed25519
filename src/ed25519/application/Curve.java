@@ -36,7 +36,7 @@ public class Curve {
 
 	private CryptoNumber getEdwardY(BigPoint first, BigPoint second) {
 		CryptoNumber part1 = first.getY().copy().multiply(second.getY());
-		part1.add(first.getX().multiply(second.getX()));
+		part1.add(first.getX().copy().multiply(second.getX()));
 		
 		CryptoNumber part2 = new CryptoNumber(1);
 		part2.subtract(edwardsMultiply(first, second));
