@@ -29,13 +29,16 @@ public class CurveTest {
 	@DataProvider(name = "edwards")
 	public static Object[][] edwardsProvider() {
 		BigPoint zero = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
+		BigPoint zeroOne = new BigPoint(new CryptoNumber(0), new CryptoNumber(1));
+		BigPoint oneZero = new BigPoint(new CryptoNumber(1), new CryptoNumber(0));
 		BigPoint one = new BigPoint(new CryptoNumber(1), new CryptoNumber(1));
 		BigPoint result2 = new BigPoint(new CryptoNumber("243332"), new CryptoNumber("51380297829790456491237162401597246033761091082941378702394490295467508647106"));
 		//BigPoint result3 = new BigPoint();
 		Object[][] data = {{zero.copy(), zero.copy(), zero},
 				{one.copy(), one.copy(),result2},
 				{zero.copy(), one.copy(), zero},
-				{one.copy(), zero.copy(), zero}};
+				{one.copy(), zero.copy(), zero},
+				{zeroOne.copy(), oneZero.copy(), oneZero}};
 		return data;
 	}
 	
@@ -44,15 +47,6 @@ public class CurveTest {
 		BigPoint result = c.edwards(first, second);
 		Assert.assertEquals(result, expected);
 	}
-	
-//	@Test(dependsOnGroups = {"bigpoint"}, groups = {"edward"})
-//	public void testEdwards1and1() {
-//		BigPoint first = new BigPoint(new BigInteger("1"), new BigInteger("1"));
-//		BigPoint second = new BigPoint(new BigInteger("1"), new BigInteger("1"));
-//		BigPoint expected = 
-//		BigPoint result = c.edwards(first, second);
-//		Assert.assertEquals(result, expected);
-//	}
 
 //	@Test(dependsOnGroups = {"bigpoint"})
 //	public void testScalarMult0() {
