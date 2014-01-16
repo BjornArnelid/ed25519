@@ -17,7 +17,7 @@ public class CurveTest {
 		c = new Curve();
 	}
 
-	@Test(dependsOnMethods = {"ed25519.test.CryptoNumberTest.testInvert", "ed25519.test.BigPointTest.testgetPointfromY"}, dependsOnGroups = {"bigpoint", "basics"}, groups = {"basepoint"})
+	@Test(dependsOnMethods = {"ed25519.test.CryptoNumberTest.testInvert", "ed25519.test.BigPointTest.testgetPointfromY"}, dependsOnGroups = {"bigpoint", "basics"})
 	public void testGetBasePoint() {
 		CryptoNumber x = new CryptoNumber("15112221349535400772501151409588531511454012693041857206046113283949847762202");
 		CryptoNumber y = new CryptoNumber("46316835694926478169428394003475163141307993866256225615783033603165251855960");
@@ -63,8 +63,14 @@ public class CurveTest {
 	}
 	
 	@Test(dataProvider = "scalar", dependsOnGroups = {"bigpoint","basics","testbit"}, dependsOnMethods = {"testEdwards", "testGetBasePoint"})
-	public void testScalarMult0(CryptoNumber input, BigPoint expected) {
+	public void testScalarMult(CryptoNumber input, BigPoint expected) {
 		BigPoint result = c.scalarmult(input);
 		Assert.assertEquals(result, expected);
+	}
+	
+	@Test
+	public void testEncodePoint() {
+		
+		Assert.fail();
 	}
 }

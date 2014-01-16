@@ -15,11 +15,13 @@ public class CryptoTest {
 		Crypto crypto = new Crypto();
 		Assert.assertNotNull(crypto);
 	}
-//	public void testGetPublicKey() throws NoSuchAlgorithmException {
-//		Crypto crypto = new Crypto();
-//		byte[] input = {0};
-//		byte[] someArray = "3b6a27bcceb6a42d62a3a8d02a6f0d73653215771de243a63ac048a18b59da29".getBytes();
-//		assertEquals(someArray,crypto.getPublikKey(input));
-//	}
+	
+	@Test(dependsOnGroups= {"basics", "bigpoint"}, dependsOnMethods = {"ed25519.test.CurveTest.testScalarMult","ed25519.test.CurveTest.testEncodePoint"})
+	public void testGetPublicKey() throws NoSuchAlgorithmException {
+		Crypto crypto = new Crypto();
+		byte[] input = {0};
+		byte[] someArray = "3b6a27bcceb6a42d62a3a8d02a6f0d73653215771de243a63ac048a18b59da29".getBytes();
+		Assert.assertEquals(someArray,crypto.getPublikKey(input));
+	}
 	
 }
