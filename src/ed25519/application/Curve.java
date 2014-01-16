@@ -28,6 +28,7 @@ public class Curve {
 		
 		CryptoNumber part1 = first.getX().copy().multiply(second.getY());
 		part1.add(second.getX().copy().multiply(first.getY()));
+	
 		CryptoNumber part2 = new CryptoNumber(1);
 		part2.add(edwardsMultiply(first, second));
 		part2.invert();
