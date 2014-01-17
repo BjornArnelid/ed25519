@@ -6,14 +6,14 @@ import org.testng.Assert;
 
 import java.security.NoSuchAlgorithmException;
 
-import ed25519.application.Crypto;
+import ed25519.application.Ed25519;
 
 
-public class CryptoTest {
+public class Ed25519Test {
 
 	@Test(dependsOnGroups= "constants")
 	public void testCreateCrypto() throws NoSuchAlgorithmException {
-		Crypto crypto = new Crypto();
+		Ed25519 crypto = new Ed25519();
 		Assert.assertNotNull(crypto);
 	}
 	
@@ -31,8 +31,14 @@ public class CryptoTest {
 	
 	@Test(dataProvider = "publickey", dependsOnGroups= {"basics", "bigpoint"}, dependsOnMethods = {"ed25519.test.CurveTest.testScalarMult","ed25519.test.CurveTest.testEncodePoint"})
 	public void testGetPublicKey(byte[] input, byte[] expected) throws NoSuchAlgorithmException {
-		Crypto crypto = new Crypto();
+		Ed25519 crypto = new Ed25519();
 		Assert.assertEquals(crypto.getPublikKey(input), expected);
+	}
+	
+	@Test
+	public void testSign() {
+		Ed25519 crypto = new Ed25519();
+		Assert.fail();
 	}
 	
 }

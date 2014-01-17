@@ -2,7 +2,7 @@ package ed25519.application;
 
 import java.security.NoSuchAlgorithmException;
 
-public class Crypto {
+public class Ed25519 {
 
 	public byte[] getPublikKey(byte[] privateKey)
 			throws NoSuchAlgorithmException {
