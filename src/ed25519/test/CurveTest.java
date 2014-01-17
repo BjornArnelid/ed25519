@@ -68,10 +68,30 @@ public class CurveTest {
 		Assert.assertEquals(result, expected);
 	}
 	
-	@Test
-	public void testEncodePoint() {
-		BigPoint input = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
-		byte[] expected = new byte[32]; // Defaults to all zero
+	@DataProvider(name = "encode")
+	public static Object[][] encodeProvider() {
+		BigPoint input1 = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
+		BigPoint input2 = new BigPoint(new CryptoNumber(1), new CryptoNumber(0));
+		BigPoint input3 = new BigPoint(new CryptoNumber(0), new CryptoNumber(1));
+		BigPoint input4 = new BigPoint(new CryptoNumber(0), new CryptoNumber(128));
+		BigPoint input5 = new BigPoint(new CryptoNumber(0), new CryptoNumber(1032));
+		byte[] expected1 = new byte[32];
+		byte[] expected2 = new byte[32];
+		expected2[31] |= 1 << 7;
+		byte[] expected3 = new byte[32];
+		expected3[0] |= 1 << 0;
+		byte[] expected4 = new byte[32];
+		expected4[0] |= 1 << 7;
+		byte[] expected5 = new byte[32];
+		expected5[0] |= 1 << 3;
+		expected5[1] |= 1 << 2;
+		Object[][] data = {{input1,expected1}, {input2,expected2},
+				{input3,expected3}, {input4,expected4}, {input5,expected5}};
+		return data;
+	}
+	
+	@Test(dataProvider= "encode")
+	public void testEncodePoint(BigPoint input, byte[] expected) {
 		Assert.assertEquals(c.encodePoint(input), expected);
 	}
 }

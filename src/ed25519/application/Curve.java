@@ -60,7 +60,18 @@ public class Curve {
 		return result;
 	}
 
-	public byte[] encodePoint(BigPoint input) {
-		return new byte[32];
+	public byte[] encodePoint(BigPoint point) {
+		Constants c = Constants.getInstance();
+		byte[] bytes = new byte[32];
+
+		for(int i=0; i<(c.getb()-1);++i) {
+			if(point.getY().testBit(i)) {
+				bytes[(i/8)] |= 1 << i%8;
+			}
+		}
+		if(point.getX().testBit(0)) {
+			bytes[31] |= 1 << 7;
+		}
+		return bytes;
 	}
 }

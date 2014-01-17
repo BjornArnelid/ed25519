@@ -19,8 +19,8 @@ public class Crypto {
 		}
 
 		BigPoint A = curve.scalarmult(n);
-		//encodepoint
-		return null;
+		byte[] key = curve.encodePoint(A);
+		return key;
 	}
 
 }
