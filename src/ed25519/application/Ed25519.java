@@ -36,6 +36,17 @@ public class Ed25519 {
 		return null;
 	}
 
+	private CryptoNumber getA(Hash sha512) {
+		CryptoNumber n = new CryptoNumber(2).pow(256-2);
+			
+		for (int i=3;i<(constants.getb() - 2);i++) {
+			if(sha512.getBit(i) == 1) {
+				n = n.add(new CryptoNumber(2).pow(i));
+			}
+		}
+		return n;
+	}
+	
 	public byte[] concatArrays(byte[] array1, byte[] array2) {
 		int size = array1.length + array2.length;
 		byte[] result = new byte[size];
@@ -48,16 +59,5 @@ public class Ed25519 {
 			} 
 		}
 		return result;
-	}
-
-	private CryptoNumber getA(Hash sha512) {
-		CryptoNumber n = new CryptoNumber(2).pow(256-2);
-			
-		for (int i=3;i<(constants.getb() - 2);i++) {
-			if(sha512.getBit(i) == 1) {
-				n = n.add(new CryptoNumber(2).pow(i));
-			}
-		}
-		return n;
 	}
 }
