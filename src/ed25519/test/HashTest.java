@@ -44,7 +44,9 @@ public class HashTest {
 
 	@Test
 	public void testGetBytes() {
-		
-		Assert.fail();
+		int from = 0; 
+		int to = 1;
+		byte[] expected = {(byte)0x31};
+		Assert.assertEquals(sha512.getBytes(from, to),  expected);
 	}
 }
