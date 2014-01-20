@@ -23,4 +23,9 @@ public class Ed25519 {
 		return key;
 	}
 
+	public byte[] sign(String m, byte[] sk, byte[] pk) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
