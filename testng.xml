@@ -8,7 +8,7 @@
       <class name="ed25519.test.BigPointTest"/>
       <class name="ed25519.test.CurveTest"/>
       <class name="ed25519.test.HashTest"/>
-      <class name="ed25519.test.CryptoTest"/>
+      <class name="ed25519.test.Ed25519Test"/>
     </classes>
   </test> <!-- TestED25519 -->
 </suite> <!-- SuiteED25519 -->
