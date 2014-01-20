@@ -46,10 +46,18 @@ public class Ed25519Test {
 		Assert.assertEquals(crypto.getPublikKey(sk), pk);
 	}
 	
-	@Test(dataProvider = "sign", dependsOnGroups = {"hash","basics"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testGetBitLength","ed25519.test.HashTest.testGetBytes"})
+	@Test(dataProvider = "sign", dependsOnGroups = {"hash","basics"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testGetBitLength","ed25519.test.HashTest.testGetBytes","testConcatArrays"})
 	public void testSign(byte[] sk, byte[] pk, byte[] s) throws NoSuchAlgorithmException {
 		byte[] m = "Hello World".getBytes();
 		Assert.assertEquals(crypto.sign(m, sk, pk), s);
+	}
+	
+	@Test
+	public void testConcatArrays() {
+		byte[] first = "Hello".getBytes();
+		byte[] second = "World".getBytes();
+		byte[] expected = "HelloWorld".getBytes();
+		Assert.assertEquals(crypto.concatArrays(first, second), expected);
 	}
 	
 }

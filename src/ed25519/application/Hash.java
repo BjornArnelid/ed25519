@@ -2,6 +2,7 @@ package ed25519.application;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class Hash {
 
@@ -25,8 +26,8 @@ public class Hash {
 		return bytes[position/8] >> (position%8) & 1;
 	}
 
-	public byte[] getBytes(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
+	public byte[] getBytes(int from, int to) {
+		byte[] result = Arrays.copyOfRange(bytes, from, to);
+		return result;
 	}
 }

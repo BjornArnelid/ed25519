@@ -30,9 +30,24 @@ public class Ed25519 {
 		sha512.digest(sk);
 		
 		CryptoNumber a = getA(sha512);
-		byte[] hintInput = sha512.getBytes(b/8, b/4);
+		byte[] subHash = sha512.getBytes(b/8, b/4);
+		byte[] hintInput = concatArrays(subHash, m);
 		CryptoNumber r = curve.hint(hintInput);
 		return null;
+	}
+
+	public byte[] concatArrays(byte[] array1, byte[] array2) {
+		int size = array1.length + array2.length;
+		byte[] result = new byte[size];
+		for(int i=0;i<size;++i) {
+			if(i<array1.length) {
+				result[i] = array1[i];
+			}
+			else {
+				result[i] = array2[i-array1.length];
+			} 
+		}
+		return result;
 	}
 
 	private CryptoNumber getA(Hash sha512) {
