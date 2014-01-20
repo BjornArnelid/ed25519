@@ -24,4 +24,9 @@ public class Hash {
 	public int getBit(int position) {
 		return bytes[position/8] >> (position%8) & 1;
 	}
+
+	public byte[] getBytes(int i, int j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

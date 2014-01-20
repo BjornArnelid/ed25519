@@ -74,4 +74,9 @@ public class Curve {
 		}
 		return bytes;
 	}
+
+	public CryptoNumber hint(byte[] m) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
