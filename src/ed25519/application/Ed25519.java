@@ -23,9 +23,11 @@ public class Ed25519 {
 		return key;
 	}
 
-	public byte[] sign(String m, byte[] sk, byte[] pk) {
-		// TODO Auto-generated method stub
+	public byte[] sign(byte[] m, byte[] sk, byte[] pk) 
+			throws NoSuchAlgorithmException {
+		Hash sha512 = new Hash("SHA-512");
+		sha512.digest(sk);
+		//CryptoNumber a = hint(m);
 		return null;
 	}
-
 }
