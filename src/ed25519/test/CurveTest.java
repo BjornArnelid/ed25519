@@ -1,5 +1,7 @@
 package ed25519.test;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -93,5 +95,17 @@ public class CurveTest {
 	@Test(dataProvider= "encode")
 	public void testEncodePoint(BigPoint input, byte[] expected) {
 		Assert.assertEquals(c.encodePoint(input), expected);
+	}
+	
+	@Test
+	public void testEncodeInt() {
+		Assert.fail();
+	}
+	
+	@Test(dependsOnGroups="hash")
+	public void testHint() throws NoSuchAlgorithmException {
+		byte[] input = {};
+		CryptoNumber expected = new CryptoNumber("3291835376408573590478209986637364656599265025014012802863049622424083630783948306431999498413285667939592978357630573418285899181951386474024455144309711");
+		Assert.assertEquals(c.hint(input), expected);
 	}
 }

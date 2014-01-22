@@ -1,9 +1,13 @@
 package ed25519.application;
 
+import java.security.NoSuchAlgorithmException;
+
 public class Curve {
 
+	private Constants c;
+
 	public Curve() {
-		
+		c = Constants.getInstance();
 	}
 
 	public BigPoint getBasePoint() {
@@ -52,7 +56,6 @@ public class Curve {
 	}
 
 	private CryptoNumber edwardsMultiply(BigPoint first, BigPoint second) {
-		Constants c = Constants.getInstance();
 		CryptoNumber result = c.getD();
 		
 		result.multiply(first.getX()).multiply(first.getY());
@@ -61,7 +64,6 @@ public class Curve {
 	}
 
 	public byte[] encodePoint(BigPoint point) {
-		Constants c = Constants.getInstance();
 		byte[] bytes = new byte[32];
 
 		for(int i=0; i<(c.getb()-1);++i) {
@@ -75,7 +77,19 @@ public class Curve {
 		return bytes;
 	}
 
-	public CryptoNumber hint(byte[] m) {
+	public CryptoNumber hint(byte[] m) throws NoSuchAlgorithmException {
+		Hash hash = new Hash("SHA-512");
+		hash.digest(m);
+		CryptoNumber n = new CryptoNumber(0);
+		for(int i=0; i<2*c.getb(); ++i) {
+			if(hash.getBit(i) == 1) {
+				n.add(new CryptoNumber(2).pow(i));
+			}
+		}
+		return n;
+	}
+
+	public byte[] encodeInt(CryptoNumber s) {
 		// TODO Auto-generated method stub
 		return null;
 	}

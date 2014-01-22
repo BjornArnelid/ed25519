@@ -31,15 +31,19 @@ public class Ed25519 {
 		
 		CryptoNumber a = getA(sha512);
 		byte[] subHash = sha512.getBytes(b/8, b/4);
-		byte[] hintInput = concatArrays(subHash, m);
-		CryptoNumber r = curve.hint(hintInput);
-		return null;
+		byte[] rInput = concatArrays(subHash, m);
+		CryptoNumber r = curve.hint(rInput);
+		BigPoint R = curve.scalarmult(r);
+		byte[] sInput = concatArrays(curve.encodePoint(R), pk);
+		sInput = concatArrays(sInput, m);
+		CryptoNumber S = r.copy().add(curve.hint(sInput));
+		return concatArrays(curve.encodePoint(R), curve.encodeInt(S));
 	}
 
 	private CryptoNumber getA(Hash sha512) {
 		CryptoNumber n = new CryptoNumber(2).pow(256-2);
 			
-		for (int i=3;i<(constants.getb() - 2);i++) {
+		for (int i=3; i<(constants.getb() - 2); ++i) {
 			if(sha512.getBit(i) == 1) {
 				n = n.add(new CryptoNumber(2).pow(i));
 			}
