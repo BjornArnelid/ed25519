@@ -8,6 +8,7 @@ public class Constants {
 	private CryptoNumber q;
 	private CryptoNumber I;
 	private CryptoNumber d;
+	private CryptoNumber l;
 	
 	private Constants() {
 		b = 256;
@@ -46,5 +47,13 @@ public class Constants {
 			d = new CryptoNumber("-121665").multiply(multiplier);
 		}
 		return d.copy();
+	}
+
+	public CryptoNumber getL() {
+		if(l == null) {
+			l = new CryptoNumber(2).pow(252);
+			l.add(new CryptoNumber("27742317777372353535851937790883648493"));
+		}
+		return l;
 	}
 }

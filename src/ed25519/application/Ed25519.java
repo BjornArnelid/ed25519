@@ -36,8 +36,9 @@ public class Ed25519 {
 		BigPoint R = curve.scalarmult(r);
 		byte[] sInput = concatArrays(curve.encodePoint(R), pk);
 		sInput = concatArrays(sInput, m);
-		CryptoNumber S = r.copy().add(curve.hint(sInput));
-		return concatArrays(curve.encodePoint(R), curve.encodeInt(S));
+		CryptoNumber S = r.copy().add(curve.hint(sInput).multiply(a));
+		S.mod(constants.getL());
+		return concatArrays(curve.encodePoint(R), curve.encodeNumber(S));
 	}
 
 	private CryptoNumber getA(Hash sha512) {

@@ -58,4 +58,10 @@ public class ConstantsTest {
 		actual.add(2);
 		Assert.assertEquals(c.getD(), expected);
 	}
+	
+	@Test(dependsOnGroups= "basics")
+	public void testGetL() {
+		CryptoNumber expected = new CryptoNumber("7237005577332262213973186563042994240857116359379907606001950938285454250989");
+		Assert.assertEquals(c.getL(), expected);
+	}
 }

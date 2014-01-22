@@ -41,12 +41,12 @@ public class Ed25519Test {
 		return data;
 	}
 	
-	@Test(dataProvider = "sign", dependsOnGroups= {"basics","bigpoint","hash"}, dependsOnMethods = {"ed25519.test.CurveTest.testScalarMult","ed25519.test.CurveTest.testEncodePoint","ed25519.test.ConstantsTest.testGetBitLength",})
+	@Test(dataProvider = "sign", dependsOnGroups= {"basics","bigpoint","hash"}, dependsOnMethods = {"ed25519.test.CurveTest.testScalarMult","ed25519.test.CurveTest.testEncodePoint","ed25519.test.ConstantsTest.testGetBitLength"})
 	public void testGetPublicKey(byte[] sk, byte[] pk, byte[] s) throws NoSuchAlgorithmException {
 		Assert.assertEquals(crypto.getPublikKey(sk), pk);
 	}
 	
-	@Test(dataProvider = "sign", dependsOnGroups = {"hash","basics"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testGetBitLength","ed25519.test.HashTest.testGetBytes","testConcatArrays","ed25519.test.CurveTest.testHint","ed25519.test.CurveTest.testEncodeInt","ed25519.test.CurveTest.testEncodePoint"})
+	@Test(dataProvider = "sign", dependsOnGroups = {"hash","basics"}, dependsOnMethods = {"testConcatArrays","ed25519.test.ConstantsTest.testGetBitLength","ed25519.test.ConstantsTest.testGetL","ed25519.test.HashTest.testGetBytes","ed25519.test.CurveTest.testHint","ed25519.test.CurveTest.testEncodeNum","ed25519.test.CurveTest.testEncodePoint"})
 	public void testSign(byte[] sk, byte[] pk, byte[] s) throws NoSuchAlgorithmException {
 		byte[] m = "Hello World".getBytes();
 		Assert.assertEquals(crypto.sign(m, sk, pk), s);

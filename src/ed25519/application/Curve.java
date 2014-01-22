@@ -64,19 +64,31 @@ public class Curve {
 	}
 
 	public byte[] encodePoint(BigPoint point) {
-		byte[] bytes = new byte[32];
-
-		for(int i=0; i<(c.getb()-1);++i) {
-			if(point.getY().testBit(i)) {
-				bytes[(i/8)] |= 1 << i%8;
-			}
-		}
+		byte[] bytes = encodeRange(point.getY());
 		if(point.getX().testBit(0)) {
 			bytes[31] |= 1 << 7;
 		}
 		return bytes;
 	}
+	
+	public byte[] encodeNumber(CryptoNumber s) {
+		byte[] bytes = encodeRange(s);
+		if(s.testBit(c.getb())) {
+			bytes[31] |= 1 << 7;			
+		}
+		return bytes;
+	}
 
+	private byte[] encodeRange(CryptoNumber number) {
+		byte[] bytes = new byte[32];
+		for(int i=0; i<(c.getb()-1);++i) {
+			if(number.testBit(i)) {
+				bytes[(i/8)] |= 1 << i%8;
+			}
+		}
+		return bytes;
+	}
+	
 	public CryptoNumber hint(byte[] m) throws NoSuchAlgorithmException {
 		Hash hash = new Hash("SHA-512");
 		hash.digest(m);
@@ -87,10 +99,5 @@ public class Curve {
 			}
 		}
 		return n;
-	}
-
-	public byte[] encodeInt(CryptoNumber s) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
