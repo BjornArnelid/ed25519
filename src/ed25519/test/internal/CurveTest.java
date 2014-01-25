@@ -1,4 +1,4 @@
-package ed25519.test;
+package ed25519.test.internal;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -9,10 +9,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import ed25519.application.BigPoint;
-import ed25519.application.Constants;
-import ed25519.application.CryptoNumber;
-import ed25519.application.Curve;
+import ed25519.application.internal.BigPoint;
+import ed25519.application.internal.Constants;
+import ed25519.application.internal.CryptoNumber;
+import ed25519.application.internal.Curve;
 
 public class CurveTest {
 	private Curve c;
@@ -22,7 +22,7 @@ public class CurveTest {
 		c = new Curve();
 	}
 
-	@Test(dependsOnMethods = {"ed25519.test.CryptoNumberTest.testInvert", "ed25519.test.BigPointTest.testgetPointfromY"}, dependsOnGroups = {"bigpoint", "basics"})
+	@Test(dependsOnMethods = {"ed25519.test.internal.CryptoNumberTest.testInvert", "ed25519.test.internal.BigPointTest.testgetPointfromY"}, dependsOnGroups = {"bigpoint", "basics"})
 	public void testGetBasePoint() {
 		CryptoNumber x = new CryptoNumber("15112221349535400772501151409588531511454012693041857206046113283949847762202");
 		CryptoNumber y = new CryptoNumber("46316835694926478169428394003475163141307993866256225615783033603165251855960");
@@ -50,7 +50,7 @@ public class CurveTest {
 		return data;
 	}
 	
-	@Test(dataProvider= "edwards", dependsOnGroups = {"bigpoint"}, dependsOnMethods = "ed25519.test.CryptoNumberTest.testInvert")
+	@Test(dataProvider= "edwards", dependsOnGroups = {"bigpoint"}, dependsOnMethods = "ed25519.test.internal.CryptoNumberTest.testInvert")
 	public void testEdwards(BigPoint first, BigPoint second, BigPoint expected) {
 		BigPoint result = c.edwards(first, second);
 		Assert.assertEquals(result, expected);

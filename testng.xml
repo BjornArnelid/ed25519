@@ -3,12 +3,12 @@
 <suite name="SuiteED25519" parallel="none">
   <test name="TestED25519">
     <classes>
-      <class name="ed25519.test.CryptoNumberTest"/>
-      <class name="ed25519.test.ConstantsTest"/>
-      <class name="ed25519.test.BigPointTest"/>
-      <class name="ed25519.test.CurveTest"/>
-      <class name="ed25519.test.HashTest"/>
-      <class name="ed25519.test.Ed25519Test"/>
+      <class name="ed25519.test.internal.CryptoNumberTest"/>
+      <class name="ed25519.test.internal.ConstantsTest"/>
+      <class name="ed25519.test.internal.BigPointTest"/>
+      <class name="ed25519.test.internal.CurveTest"/>
+      <class name="ed25519.test.internal.HashTest"/>
+      <class name="ed25519.test.application.Ed25519Test"/>
     </classes>
   </test> <!-- TestED25519 -->
 </suite> <!-- SuiteED25519 -->

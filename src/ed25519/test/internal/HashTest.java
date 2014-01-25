@@ -1,4 +1,4 @@
-package ed25519.test;
+package ed25519.test.internal;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import ed25519.application.Hash;
+import ed25519.application.internal.Hash;
 
 public class HashTest {
 	

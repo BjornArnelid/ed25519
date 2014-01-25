@@ -1,12 +1,12 @@
-package ed25519.test;
+package ed25519.test.internal;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import ed25519.application.Constants;
-import ed25519.application.CryptoNumber;
+import ed25519.application.internal.Constants;
+import ed25519.application.internal.CryptoNumber;
 
 public class CryptoNumberTest {
 
@@ -227,7 +227,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider = "expmod", dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ"}, dependsOnGroups = "basics")
+	@Test(dataProvider = "expmod", dependsOnMethods = {"ed25519.test.internal.ConstantsTest.testGetQ"}, dependsOnGroups = "basics")
 	public void testExpmod(CryptoNumber number, CryptoNumber expModulus, CryptoNumber expected) {
 		CryptoNumber actual = number.copy();
 		Assert.assertEquals(actual.expmod(expModulus), expected);
@@ -243,7 +243,7 @@ public class CryptoNumberTest {
 		return data;
 	}
 	
-	@Test(dataProvider = "invert", dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ", "testExpmod"}, dependsOnGroups = {"basics"})
+	@Test(dataProvider = "invert", dependsOnMethods = {"ed25519.test.internal.ConstantsTest.testGetQ", "testExpmod"}, dependsOnGroups = {"basics"})
 	public void testInvert(CryptoNumber value, CryptoNumber expected) {
 		Assert.assertEquals(value.invert(), expected);
 	}

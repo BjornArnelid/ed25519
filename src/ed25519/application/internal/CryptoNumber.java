@@ -1,4 +1,4 @@
-package ed25519.application;
+package ed25519.application.internal;
 
 import java.math.BigInteger;
 

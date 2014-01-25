@@ -1,11 +1,11 @@
-package ed25519.test;
+package ed25519.test.internal;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import ed25519.application.Constants;
-import ed25519.application.CryptoNumber;
+import ed25519.application.internal.Constants;
+import ed25519.application.internal.CryptoNumber;
 
 public class ConstantsTest {
 	private Constants c;
@@ -41,7 +41,7 @@ public class ConstantsTest {
 		Assert.assertEquals(c.getq(), expected);
 	}
 	
-	@Test(dependsOnMethods = "ed25519.test.CryptoNumberTest.testExpmod", dependsOnGroups = {"basics", "constants"})
+	@Test(dependsOnMethods = "ed25519.test.internal.CryptoNumberTest.testExpmod", dependsOnGroups = {"basics", "constants"})
 	public void testGetI() {
 		CryptoNumber expected = new CryptoNumber("19681161376707505956807079304988542015446066515923890162744021073123829784752");
 		CryptoNumber actual = c.getI();
@@ -50,7 +50,7 @@ public class ConstantsTest {
 		Assert.assertEquals(c.getI(), expected);
 	}
 	
-	@Test(dependsOnGroups = {"basics", "constants"}, dependsOnMethods = "ed25519.test.CryptoNumberTest.testInvert")
+	@Test(dependsOnGroups = {"basics", "constants"}, dependsOnMethods = "ed25519.test.internal.CryptoNumberTest.testInvert")
 	public void testGetD() {
 		CryptoNumber expected = new CryptoNumber("-4513249062541557337682894930092624173785641285191125241628941591882900924598840740");
 		CryptoNumber actual = c.getD();

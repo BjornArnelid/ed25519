@@ -1,11 +1,11 @@
-package ed25519.test;
+package ed25519.test.internal;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import ed25519.application.BigPoint;
-import ed25519.application.CryptoNumber;
+import ed25519.application.internal.BigPoint;
+import ed25519.application.internal.CryptoNumber;
 
 public class BigPointTest {
 	
@@ -23,7 +23,7 @@ public class BigPointTest {
 		Assert.assertNotEquals(first, second);
 	}
 	
-	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ"})
+	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.internal.ConstantsTest.testGetQ"})
 	public void testXMod() {
 		CryptoNumber expected = new CryptoNumber(1);
 		BigPoint point = new BigPoint();
@@ -31,7 +31,7 @@ public class BigPointTest {
 		Assert.assertEquals(point.getX(), expected);
 	}
 	
-	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.ConstantsTest.testGetQ"})
+	@Test(groups = {"bigpoint"}, dependsOnMethods = {"ed25519.test.internal.ConstantsTest.testGetQ"})
 	public void testYMod() {
 		CryptoNumber expected = new CryptoNumber(1);
 		BigPoint point = new BigPoint();
@@ -63,9 +63,8 @@ public class BigPointTest {
 		return data;
 	}
 	
-	@Test(dataProvider = "fromY", dependsOnMethods = {"ed25519.test.CryptoNumberTest.testExpmod", "ed25519.test.ConstantsTest.testGetD", "ed25519.test.ConstantsTest.testGetI"})
+	@Test(dataProvider = "fromY", dependsOnMethods = {"ed25519.test.internal.CryptoNumberTest.testExpmod", "ed25519.test.internal.ConstantsTest.testGetD", "ed25519.test.internal.ConstantsTest.testGetI"})
 	public void testgetPointfromY(CryptoNumber value, CryptoNumber expected) {
 		Assert.assertEquals(new BigPoint(value).getX(), expected);
 	}
-
 }

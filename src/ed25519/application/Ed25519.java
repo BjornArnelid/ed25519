@@ -2,6 +2,12 @@ package ed25519.application;
 
 import java.security.NoSuchAlgorithmException;
 
+import ed25519.application.internal.BigPoint;
+import ed25519.application.internal.Constants;
+import ed25519.application.internal.CryptoNumber;
+import ed25519.application.internal.Curve;
+import ed25519.application.internal.Hash;
+
 public class Ed25519 {
 	
 	private Curve curve;
