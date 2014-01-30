@@ -3,6 +3,7 @@ package ed25519.application;
 import java.security.NoSuchAlgorithmException;
 
 import ed25519.application.internal.BigPoint;
+import ed25519.application.internal.ByteArray;
 import ed25519.application.internal.Constants;
 import ed25519.application.internal.CryptoNumber;
 import ed25519.application.internal.Curve;
@@ -18,7 +19,7 @@ public class Ed25519 {
 		constants = Constants.getInstance();
 	}
 
-	public byte[] getPublikKey(byte[] privateKey)
+	public Key getPublikKey(Key privateKey)
 			throws NoSuchAlgorithmException {
 		Hash sha512 = new Hash("SHA-512");
 		sha512.digest(privateKey);
@@ -26,10 +27,10 @@ public class Ed25519 {
 		CryptoNumber a = getA(sha512);
 		BigPoint A = curve.scalarmult(a);
 		byte[] key = curve.encodePoint(A);
-		return key;
+		return new Key(key);
 	}
 
-	public byte[] sign(byte[] m, byte[] sk, byte[] pk) 
+	public byte[] sign(byte[] m, Key sk, Key pk) 
 			throws NoSuchAlgorithmException {
 		int b = constants.getb();
 		Hash sha512 = new Hash("SHA-512");
@@ -40,7 +41,7 @@ public class Ed25519 {
 		byte[] rInput = concatArrays(subHash, m);
 		CryptoNumber r = curve.hint(rInput);
 		BigPoint R = curve.scalarmult(r);
-		byte[] sInput = concatArrays(curve.encodePoint(R), pk);
+		byte[] sInput = concatArrays(curve.encodePoint(R), pk.bytes());
 		sInput = concatArrays(sInput, m);
 		CryptoNumber S = r.copy().add(curve.hint(sInput).multiply(a));
 		S.mod(constants.getL());

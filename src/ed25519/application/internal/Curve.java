@@ -91,7 +91,7 @@ public class Curve {
 	
 	public CryptoNumber hint(byte[] m) throws NoSuchAlgorithmException {
 		Hash hash = new Hash("SHA-512");
-		hash.digest(m);
+		hash.digest(new ByteArray(m));
 		CryptoNumber n = new CryptoNumber(0);
 		for(int i=0; i<2*c.getb(); ++i) {
 			if(hash.getBit(i) == 1) {

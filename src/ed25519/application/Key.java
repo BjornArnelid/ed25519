@@ -1,23 +1,20 @@
 package ed25519.application;
 
-public class Key {
+import ed25519.application.internal.ByteArray;
 
-	private byte[] value;
-	
+
+public class Key extends ByteArray {
+
 	public Key(String input) {
-		value = input.getBytes();
+		super(input.getBytes());
 	}
 	
 	public Key(byte[] input) {
-		value = input;
+		super(input);
 	}
-
+	
 	@Override
 	public String toString() {
 		return new String(value);
-	}
-
-	public byte[] bytes() {
-		return value;
 	}
 }

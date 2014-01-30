@@ -13,9 +13,9 @@ public class Hash {
 		hasher = MessageDigest.getInstance(hashAlgorithm);
 	}
 
-	public void digest(byte[] input) {
+	public void digest(ByteArray input) {
 		hasher.reset();
-		bytes = hasher.digest(input);
+		bytes = hasher.digest(input.bytes());
 	}
 
 	public byte[] getBytes() {

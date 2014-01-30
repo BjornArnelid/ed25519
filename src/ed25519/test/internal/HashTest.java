@@ -11,17 +11,19 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import ed25519.application.Key;
+import ed25519.application.internal.ByteArray;
 import ed25519.application.internal.Hash;
 
 public class HashTest {
 	
 	private Hash sha512;
-	private byte[] input;
+	private ByteArray input;
 
 	@BeforeMethod
 	protected void setUp() throws Exception {
 		sha512 = new Hash("SHA-512");
-		input = "0".getBytes();
+		input = new Key("0");
 		sha512.digest(input);
 	}
 	@Test(groups = {"hash"})
