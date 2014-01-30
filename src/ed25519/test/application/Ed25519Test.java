@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import ed25519.application.Ed25519;
 import ed25519.application.Key;
+import ed25519.application.Message;
 import ed25519.application.internal.ByteArray;
 
 
@@ -43,23 +44,14 @@ public class Ed25519Test {
 		return data;
 	}
 	
-	@Test(dataProvider = "sign", dependsOnGroups= {"basics","bigpoint","hash","key"}, dependsOnMethods = {"ed25519.test.internal.CurveTest.testScalarMult","ed25519.test.internal.CurveTest.testEncodePoint","ed25519.test.internal.ConstantsTest.testGetBitLength"})
+	@Test(dataProvider = "sign", dependsOnGroups= {"basics","bigpoint","hash","byte"}, dependsOnMethods = {"ed25519.test.internal.CurveTest.testScalarMult","ed25519.test.internal.CurveTest.testEncodePoint","ed25519.test.internal.ConstantsTest.testGetBitLength"})
 	public void testGetPublicKey(Key sk, Key pk, byte[] s) throws NoSuchAlgorithmException {
 		Assert.assertEquals(crypto.getPublikKey(sk), pk);
 	}
 	
-	@Test(dataProvider = "sign", dependsOnGroups = {"basics","bigpoint","hash","key"}, dependsOnMethods = {"testConcatArrays","ed25519.test.internal.ConstantsTest.testGetBitLength","ed25519.test.internal.ConstantsTest.testGetL","ed25519.test.internal.HashTest.testGetBytes","ed25519.test.internal.CurveTest.testHint","ed25519.test.internal.CurveTest.testEncodeNum","ed25519.test.internal.CurveTest.testEncodePoint"})
+	@Test(dataProvider = "sign", dependsOnGroups = {"basics","bigpoint","hash","byte"}, dependsOnMethods = {"ed25519.test.internal.ConstantsTest.testGetBitLength","ed25519.test.internal.ConstantsTest.testGetL","ed25519.test.internal.CurveTest.testHint","ed25519.test.internal.CurveTest.testEncodeNum","ed25519.test.internal.CurveTest.testEncodePoint"})
 	public void testSign(Key sk, Key pk, byte[] s) throws NoSuchAlgorithmException {
-		byte[] m = "Hello World".getBytes();
+		Message m = new Message("Hello World");
 		Assert.assertEquals(crypto.sign(m, sk, pk), s);
 	}
-	
-	@Test
-	public void testConcatArrays() {
-		byte[] first = "Hello".getBytes();
-		byte[] second = "World".getBytes();
-		byte[] expected = "HelloWorld".getBytes();
-		Assert.assertEquals(crypto.concatArrays(first, second), expected);
-	}
-	
 }

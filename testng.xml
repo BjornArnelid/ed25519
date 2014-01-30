@@ -9,7 +9,6 @@
       <class name="ed25519.test.internal.BigPointTest"/>
       <class name="ed25519.test.internal.CurveTest"/>
       <class name="ed25519.test.internal.HashTest"/>
-      <class name="ed25519.test.application.KeyTest"/>
       <class name="ed25519.test.application.Ed25519Test"/>
     </classes>
   </test> <!-- TestED25519 -->

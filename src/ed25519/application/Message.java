@@ -2,14 +2,14 @@ package ed25519.application;
 
 import ed25519.application.internal.ByteArray;
 
+public class Message extends ByteArray {
 
-public class Key extends ByteArray {
-
-	public Key(String input) {
+	public Message(String input) {
 		super(input);
 	}
-	
-	public Key(byte[] input) {
+
+	public Message(byte[] input) {
 		super(input);
 	}
+
 }

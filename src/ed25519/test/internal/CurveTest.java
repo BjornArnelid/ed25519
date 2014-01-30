@@ -10,6 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import ed25519.application.internal.BigPoint;
+import ed25519.application.internal.ByteArray;
 import ed25519.application.internal.Constants;
 import ed25519.application.internal.CryptoNumber;
 import ed25519.application.internal.Curve;
@@ -74,7 +75,7 @@ public class CurveTest {
 	}
 	
 	@DataProvider(name = "encodepoint")
-	public static Object[][] encodePointProvider() {
+	public static Object[][] encodePointProvider() throws NoSuchAlgorithmException {
 		Curve c = new Curve();
 		BigPoint input1 = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
 		BigPoint input2 = new BigPoint(new CryptoNumber(1), new CryptoNumber(0));
@@ -99,7 +100,7 @@ public class CurveTest {
 		return data;
 	}
 	
-	@Test(dataProvider= "encodepoint")
+	@Test(dataProvider= "encodepoint", dependsOnGroups="byte")
 	public void testEncodePoint(BigPoint input, byte[] expected) {
 		Assert.assertEquals(c.encodePoint(input), expected);
 	}
@@ -117,14 +118,14 @@ public class CurveTest {
 		return data;
 	}
 	
-	@Test(dataProvider="encodenum")
+	@Test(dataProvider="encodenum", dependsOnGroups="byte")
 	public void testEncodeNum(CryptoNumber input, byte[] expected) {
 		Assert.assertEquals(c.encodeNumber(input), expected);
 	}
 	
-	@Test(dependsOnGroups="hash")
+	@Test(dependsOnGroups={"hash","byte"})
 	public void testHint() throws NoSuchAlgorithmException {
-		byte[] input = {};
+		ByteArray input = new ByteArray("");
 		CryptoNumber expected = new CryptoNumber("3291835376408573590478209986637364656599265025014012802863049622424083630783948306431999498413285667939592978357630573418285899181951386474024455144309711");
 		Assert.assertEquals(c.hint(input), expected);
 	}

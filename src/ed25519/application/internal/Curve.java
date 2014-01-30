@@ -5,9 +5,11 @@ import java.security.NoSuchAlgorithmException;
 public class Curve {
 
 	private Constants c;
+	private Hash hash;
 
-	public Curve() {
+	public Curve() throws NoSuchAlgorithmException {
 		c = Constants.getInstance();
+		hash = new Hash("SHA-512");
 	}
 
 	public BigPoint getBasePoint() {
@@ -63,38 +65,37 @@ public class Curve {
 		return result;
 	}
 
-	public byte[] encodePoint(BigPoint point) {
-		byte[] bytes = encodeRange(point.getY());
+	public ByteArray encodePoint(BigPoint point) {
+		ByteArray bytes = encodeRange(point.getY());
 		if(point.getX().testBit(0)) {
-			bytes[31] |= 1 << 7;
+			bytes.setBit(255, true);
 		}
 		return bytes;
 	}
 	
-	public byte[] encodeNumber(CryptoNumber s) {
-		byte[] bytes = encodeRange(s);
+	public ByteArray encodeNumber(CryptoNumber s) {
+		ByteArray bytes = encodeRange(s);
 		if(s.testBit(c.getb())) {
-			bytes[31] |= 1 << 7;			
+			bytes.setBit(255, true);			
 		}
 		return bytes;
 	}
 
-	private byte[] encodeRange(CryptoNumber number) {
-		byte[] bytes = new byte[32];
+	private ByteArray encodeRange(CryptoNumber number) {
+		ByteArray bytes = new ByteArray();
 		for(int i=0; i<(c.getb()-1);++i) {
 			if(number.testBit(i)) {
-				bytes[(i/8)] |= 1 << i%8;
+				bytes.setBit(i,true);
 			}
 		}
 		return bytes;
 	}
 	
-	public CryptoNumber hint(byte[] m) throws NoSuchAlgorithmException {
-		Hash hash = new Hash("SHA-512");
-		hash.digest(new ByteArray(m));
+	public CryptoNumber hint(ByteArray m) {
+		ByteArray array = hash.digest(m);
 		CryptoNumber n = new CryptoNumber(0);
 		for(int i=0; i<2*c.getb(); ++i) {
-			if(hash.getBit(i) == 1) {
+			if(array.getBit(i) == 1) {
 				n.add(new CryptoNumber(2).pow(i));
 			}
 		}

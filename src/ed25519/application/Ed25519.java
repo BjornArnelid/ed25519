@@ -13,63 +13,64 @@ public class Ed25519 {
 	
 	private Curve curve;
 	private Constants constants;
+	private Hash sha512;
 
-	public Ed25519() {
+	public Ed25519() throws NoSuchAlgorithmException {
 		curve = new Curve();
 		constants = Constants.getInstance();
+		sha512 = new Hash("SHA-512");
 	}
 
-	public Key getPublikKey(Key privateKey)
-			throws NoSuchAlgorithmException {
-		Hash sha512 = new Hash("SHA-512");
-		sha512.digest(privateKey);
+	public Key getPublikKey(Key privateKey) {
+		ByteArray hash = sha512.digest(privateKey);
 		
-		CryptoNumber a = getA(sha512);
+		CryptoNumber a = getA(hash);
 		BigPoint A = curve.scalarmult(a);
-		byte[] key = curve.encodePoint(A);
-		return new Key(key);
+		return new Key(curve.encodePoint(A).getBytes());
 	}
 
-	public byte[] sign(byte[] m, Key sk, Key pk) 
-			throws NoSuchAlgorithmException {
+	public Key sign(Message m, Key sk, Key pk) {
 		int b = constants.getb();
-		Hash sha512 = new Hash("SHA-512");
-		sha512.digest(sk);
+		ByteArray hash = sha512.digest(sk);
 		
-		CryptoNumber a = getA(sha512);
-		byte[] subHash = sha512.getBytes(b/8, b/4);
-		byte[] rInput = concatArrays(subHash, m);
-		CryptoNumber r = curve.hint(rInput);
+		CryptoNumber a = getA(hash);
+		ByteArray subHash = hash.getBytes(b/8, b/4);
+		subHash.append(m);
+		//ByteArray rInput = concatArrays(subHash, m.bytes());
+		CryptoNumber r = curve.hint(subHash);
 		BigPoint R = curve.scalarmult(r);
-		byte[] sInput = concatArrays(curve.encodePoint(R), pk.bytes());
-		sInput = concatArrays(sInput, m);
+		//ByteArray sInput = concatArrays(curve.encodePoint(R), pk.bytes());
+		ByteArray sInput = curve.encodePoint(R).append(pk);
+		//sInput = concatArrays(sInput, m.bytes());
+		sInput.append(m);
 		CryptoNumber S = r.copy().add(curve.hint(sInput).multiply(a));
 		S.mod(constants.getL());
-		return concatArrays(curve.encodePoint(R), curve.encodeNumber(S));
+		//return concatArrays(curve.encodePoint(R), curve.encodeNumber(S));
+		return new Key(curve.encodePoint(R).append(curve.encodeNumber(S)).getBytes());
 	}
 
-	private CryptoNumber getA(Hash sha512) {
+	private CryptoNumber getA(ByteArray array) {
 		CryptoNumber n = new CryptoNumber(2).pow(256-2);
 			
 		for (int i=3; i<(constants.getb() - 2); ++i) {
-			if(sha512.getBit(i) == 1) {
+			if(array.getBit(i) == 1) {
 				n = n.add(new CryptoNumber(2).pow(i));
 			}
 		}
 		return n;
 	}
 	
-	public byte[] concatArrays(byte[] array1, byte[] array2) {
-		int size = array1.length + array2.length;
-		byte[] result = new byte[size];
-		for(int i=0;i<size;++i) {
-			if(i<array1.length) {
-				result[i] = array1[i];
-			}
-			else {
-				result[i] = array2[i-array1.length];
-			} 
-		}
-		return result;
-	}
+//	public ByteArray concatArrays(byte[] array1, byte[] array2) {
+//		int size = array1.length + array2.length;
+//		byte[] result = new byte[size];
+//		for(int i=0;i<size;++i) {
+//			if(i<array1.length) {
+//				result[i] = array1[i];
+//			}
+//			else {
+//				result[i] = array2[i-array1.length];
+//			} 
+//		}
+//		return result;
+//	}
 }
