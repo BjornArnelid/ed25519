@@ -26,7 +26,7 @@ public class ConstantsTest {
 		Assert.assertEquals(c, other);
 	}
 	
-	@Test
+	@Test(groups= "constants")
 	public void testGetBitLength() {
 		int expected = 256;
 		Assert.assertEquals(c.getb(), expected);

@@ -2,16 +2,13 @@ package ed25519.test.internal;
 
 import java.security.NoSuchAlgorithmException;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import ed25519.application.internal.BigPoint;
-import ed25519.application.internal.ByteArray;
-import ed25519.application.internal.Constants;
+import ed25519.application.internal.BitArray;
 import ed25519.application.internal.CryptoNumber;
 import ed25519.application.internal.Curve;
 
@@ -74,58 +71,9 @@ public class CurveTest {
 		Assert.assertEquals(result, expected);
 	}
 	
-	@DataProvider(name = "encodepoint")
-	public static Object[][] encodePointProvider() throws NoSuchAlgorithmException {
-		Curve c = new Curve();
-		BigPoint input1 = new BigPoint(new CryptoNumber(0), new CryptoNumber(0));
-		BigPoint input2 = new BigPoint(new CryptoNumber(1), new CryptoNumber(0));
-		BigPoint input3 = new BigPoint(new CryptoNumber(0), new CryptoNumber(1));
-		BigPoint input4 = new BigPoint(new CryptoNumber(0), new CryptoNumber(128));
-		BigPoint input5 = new BigPoint(new CryptoNumber(0), new CryptoNumber(1032));
-		BigPoint input6 = c.getBasePoint();
-		byte[] expected1 = new byte[32];
-		byte[] expected2 = new byte[32];
-		expected2[31] |= 1 << 7;
-		byte[] expected3 = new byte[32];
-		expected3[0] |= 1 << 0;
-		byte[] expected4 = new byte[32];
-		expected4[0] |= 1 << 7;
-		byte[] expected5 = new byte[32];
-		expected5[0] |= 1 << 3;
-		expected5[1] |= 1 << 2;
-		byte[] expected6 = DatatypeConverter.parseHexBinary("5866666666666666666666666666666666666666666666666666666666666666");
-		Object[][] data = {{input1,expected1}, {input2,expected2},
-				{input3,expected3}, {input4,expected4}, {input5,expected5},
-				{input6,expected6}};
-		return data;
-	}
-	
-	@Test(dataProvider= "encodepoint", dependsOnGroups="byte")
-	public void testEncodePoint(BigPoint input, byte[] expected) {
-		Assert.assertEquals(c.encodePoint(input), expected);
-	}
-	
-	@DataProvider(name="encodenum")
-	public static Object[][] encodeNumProvider() {
-		CryptoNumber input1 = new CryptoNumber(0);
-		CryptoNumber input2 = new CryptoNumber(1);
-		CryptoNumber input3 = Constants.getInstance().getq();
-		byte[] expected1 = new byte[32];
-		byte[] expected2 = new byte[32];
-		expected2[0] |= 1 << 0;
-		byte[] expected3 = DatatypeConverter.parseHexBinary("edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f");
-		Object[][] data = {{input1,expected1}, {input2,expected2}, {input3,expected3}};
-		return data;
-	}
-	
-	@Test(dataProvider="encodenum", dependsOnGroups="byte")
-	public void testEncodeNum(CryptoNumber input, byte[] expected) {
-		Assert.assertEquals(c.encodeNumber(input), expected);
-	}
-	
 	@Test(dependsOnGroups={"hash","byte"})
 	public void testHint() throws NoSuchAlgorithmException {
-		ByteArray input = new ByteArray("");
+		BitArray input = new BitArray("");
 		CryptoNumber expected = new CryptoNumber("3291835376408573590478209986637364656599265025014012802863049622424083630783948306431999498413285667939592978357630573418285899181951386474024455144309711");
 		Assert.assertEquals(c.hint(input), expected);
 	}

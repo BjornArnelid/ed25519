@@ -65,37 +65,37 @@ public class Curve {
 		return result;
 	}
 
-	public ByteArray encodePoint(BigPoint point) {
-		ByteArray bytes = encodeRange(point.getY());
-		if(point.getX().testBit(0)) {
-			bytes.setBit(255, true);
-		}
-		return bytes;
-	}
+//	public BitArray encodePoint(BigPoint point) {
+//		BitArray bytes = encodeRange(point.getY());
+//		if(point.getX().testBit(0)) {
+//			bytes.setBit(255, true);
+//		}
+//		return bytes;
+//	}
+//	
+//	public BitArray encodeNumber(CryptoNumber s) {
+//		BitArray bytes = encodeRange(s);
+//		if(s.testBit(c.getb())) {
+//			bytes.setBit(255, true);
+//		}
+//		return bytes;
+//	}
+//
+//	private BitArray encodeRange(CryptoNumber number) {
+//		BitArray bytes = new BitArray();
+//		for(int i=0; i<(c.getb()-1);++i) {
+//			if(number.testBit(i)) {
+//				bytes.setBit(i,true);
+//			}
+//		}
+//		return bytes;
+//	}
 	
-	public ByteArray encodeNumber(CryptoNumber s) {
-		ByteArray bytes = encodeRange(s);
-		if(s.testBit(c.getb())) {
-			bytes.setBit(255, true);			
-		}
-		return bytes;
-	}
-
-	private ByteArray encodeRange(CryptoNumber number) {
-		ByteArray bytes = new ByteArray();
-		for(int i=0; i<(c.getb()-1);++i) {
-			if(number.testBit(i)) {
-				bytes.setBit(i,true);
-			}
-		}
-		return bytes;
-	}
-	
-	public CryptoNumber hint(ByteArray m) {
-		ByteArray array = hash.digest(m);
+	public CryptoNumber hint(BitArray m) {
+		BitArray array = hash.digest(m);
 		CryptoNumber n = new CryptoNumber(0);
 		for(int i=0; i<2*c.getb(); ++i) {
-			if(array.getBit(i) == 1) {
+			if(array.getBit(i)) {
 				n.add(new CryptoNumber(2).pow(i));
 			}
 		}

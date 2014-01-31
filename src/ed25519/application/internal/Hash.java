@@ -11,8 +11,8 @@ public class Hash {
 		hasher = MessageDigest.getInstance(hashAlgorithm);
 	}
 
-	public ByteArray digest(ByteArray input) {
+	public BitArray digest(BitArray input) {
 		hasher.reset();
-		return new ByteArray(hasher.digest(input.getBytes()));
+		return new BitArray(hasher.digest(input.getBytes()));
 	}
 }

@@ -3,7 +3,7 @@
 <suite name="SuiteED25519" parallel="none">
   <test name="TestED25519">
     <classes>
-      <class name="ed25519.test.internal.ByteArrayTest"/>
+      <class name="ed25519.test.internal.BitArrayTest"/>
       <class name="ed25519.test.internal.CryptoNumberTest"/>
       <class name="ed25519.test.internal.ConstantsTest"/>
       <class name="ed25519.test.internal.BigPointTest"/>
