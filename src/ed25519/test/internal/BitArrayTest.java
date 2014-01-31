@@ -51,15 +51,20 @@ public class BitArrayTest {
 		Assert.assertNotEquals(k1, k2);
 	}
 
-//	@DataProvider()
+	@DataProvider(name="getbits")
+	public static Object[][] getBitsProvider() {
+		Constants c = Constants.getInstance();
+		int b = c.getb();
+		byte[] byte1 = {(byte)0x31};
+		BitArray expected1 = new BitArray(byte1);
+		BitArray expected2 = new BitArray(DatatypeConverter.parseHexBinary("f00bf0ea68dbf3f3a5436ca63b53bf7bf80ad8d5de7d8359d0b7fed9dbc3ab99"));
+		Object[][] data = {{0,8,expected1},{b/2,b,expected2}};
+		return data;
+	}
 	
-	@Test(groups="byte")
-	public void testGetBytes() {
-		int from = 0; 
-		int to = 8;
-		byte[] b = {(byte)0x31};
-		BitArray expected = new BitArray(b);
-		Assert.assertEquals(array.getBits(from, to),  expected);
+	@Test(dataProvider="getbits", groups="byte")
+	public void testGetBits(int from, int to, BitArray expected) {
+		Assert.assertEquals(array.getBits(from, to).getBytes(),  expected.getBytes());
 	}
 	
 	@Test(groups="byte")
