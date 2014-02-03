@@ -52,7 +52,6 @@ public class Ed25519Test {
 	public void testSign(Key sk, Key pk, Key s) throws NoSuchAlgorithmException {
 		Message m = new Message("Hello World");
 		Key actual = crypto.sign(m, sk, pk);
-		System.out.println(DatatypeConverter.printHexBinary(actual.getBytes()));
 		Assert.assertEquals(actual, s);
 	}
 }

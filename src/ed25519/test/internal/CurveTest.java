@@ -2,6 +2,8 @@ package ed25519.test.internal;
 
 import java.security.NoSuchAlgorithmException;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -71,10 +73,17 @@ public class CurveTest {
 		Assert.assertEquals(result, expected);
 	}
 	
-	@Test(dependsOnGroups={"hash","byte"})
-	public void testHint() throws NoSuchAlgorithmException {
-		BitArray input = new BitArray("");
-		CryptoNumber expected = new CryptoNumber("3291835376408573590478209986637364656599265025014012802863049622424083630783948306431999498413285667939592978357630573418285899181951386474024455144309711");
+	@DataProvider(name = "hint")
+	public static Object[][] hintProvider() {
+		BitArray input2 = new BitArray(DatatypeConverter.parseHexBinary("7a4dc0a2d5c6fbae5fb5b0d536a0a9e6b686369fa57a027687c363032154759648656c6c6f20576f726c64"));
+		CryptoNumber expected1 = new CryptoNumber("3291835376408573590478209986637364656599265025014012802863049622424083630783948306431999498413285667939592978357630573418285899181951386474024455144309711");
+		CryptoNumber expected2 = new CryptoNumber("9460441281220697484169569664861910275441876295883736108623813189937332058033439812391915346157421051113320734506128038195984077300170725992452881368203635");
+		Object[][] data = {{new BitArray(""),expected1},{input2,expected2}};
+		return data;
+	}
+	
+	@Test(dataProvider=  "hint", dependsOnGroups = {"hash","byte"})
+	public void testHint(BitArray input, CryptoNumber expected) throws NoSuchAlgorithmException {
 		Assert.assertEquals(c.hint(input), expected);
 	}
 }

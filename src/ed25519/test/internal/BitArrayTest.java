@@ -58,13 +58,14 @@ public class BitArrayTest {
 		byte[] byte1 = {(byte)0x31};
 		BitArray expected1 = new BitArray(byte1);
 		BitArray expected2 = new BitArray(DatatypeConverter.parseHexBinary("f00bf0ea68dbf3f3a5436ca63b53bf7bf80ad8d5de7d8359d0b7fed9dbc3ab99"));
-		Object[][] data = {{0,8,expected1},{b/2,b,expected2}};
+		Object[][] data = {{0,8,expected1},{b,b*2,expected2}};
 		return data;
 	}
 	
 	@Test(dataProvider="getbits", groups="byte")
 	public void testGetBits(int from, int to, BitArray expected) {
-		Assert.assertEquals(array.getBits(from, to).getBytes(),  expected.getBytes());
+		System.out.println();
+		Assert.assertEquals(array.getBits(from, to),  expected);
 	}
 	
 	@Test(groups="byte")
@@ -84,13 +85,22 @@ public class BitArrayTest {
 		Assert.assertEquals(array.getBit(n), expected);
 	}
 	
-	@Test(groups="byte")
-	public void testAppend() {
-		BitArray a = new BitArray("Hello");
-		BitArray b = new BitArray("World");
-		BitArray expected = new BitArray("HelloWorld");
-		Assert.assertEquals(a.append(b), expected);
-		Assert.assertEquals(a, expected);
+	@DataProvider(name = "append")
+	public static Object[][] appendProvider() {
+		BitArray first1 = new BitArray("Hello");
+		BitArray second1 = new BitArray("World");
+		BitArray result1 = new BitArray("HelloWorld");
+		BitArray first2 = new BitArray(DatatypeConverter.parseHexBinary("7a4dc0a2d5c6fbae5fb5b0d536a0a9e6b686369fa57a027687c3630321547596"));
+		BitArray second2 = new BitArray(DatatypeConverter.parseHexBinary("48656c6c6f20576f726c64"));
+		BitArray result2 = new BitArray(DatatypeConverter.parseHexBinary("7a4dc0a2d5c6fbae5fb5b0d536a0a9e6b686369fa57a027687c363032154759648656c6c6f20576f726c64"));
+		Object[][] data = {{first1,second1,result1}, {first2,second2,result2}};
+		return data;
+	}
+	
+	@Test(dataProvider = "append", groups = "byte")
+	public void testAppend(BitArray first, BitArray second, BitArray expected) {
+		Assert.assertEquals(first.append(second), expected);
+		Assert.assertEquals(first, expected);
 	}
 	
 	@DataProvider(name = "frompoint")

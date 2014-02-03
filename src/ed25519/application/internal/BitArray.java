@@ -50,7 +50,6 @@ public class BitArray {
 		return bytes.toByteArray();
 	}
 
-
 	public BitArray getBits(int from, int to) {
 		BitArray returnArray = new BitArray();
 		returnArray.bytes = bytes.get(from, to);

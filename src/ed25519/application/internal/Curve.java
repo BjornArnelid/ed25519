@@ -64,32 +64,6 @@ public class Curve {
 		result.multiply(second.getX()).multiply(second.getY());
 		return result;
 	}
-
-//	public BitArray encodePoint(BigPoint point) {
-//		BitArray bytes = encodeRange(point.getY());
-//		if(point.getX().testBit(0)) {
-//			bytes.setBit(255, true);
-//		}
-//		return bytes;
-//	}
-//	
-//	public BitArray encodeNumber(CryptoNumber s) {
-//		BitArray bytes = encodeRange(s);
-//		if(s.testBit(c.getb())) {
-//			bytes.setBit(255, true);
-//		}
-//		return bytes;
-//	}
-//
-//	private BitArray encodeRange(CryptoNumber number) {
-//		BitArray bytes = new BitArray();
-//		for(int i=0; i<(c.getb()-1);++i) {
-//			if(number.testBit(i)) {
-//				bytes.setBit(i,true);
-//			}
-//		}
-//		return bytes;
-//	}
 	
 	public CryptoNumber hint(BitArray m) {
 		BitArray array = hash.digest(m);

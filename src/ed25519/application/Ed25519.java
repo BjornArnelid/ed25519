@@ -32,9 +32,8 @@ public class Ed25519 {
 	public Key sign(Message m, Key sk, Key pk) {
 		int b = constants.getb();
 		BitArray hash = sha512.digest(sk);
-		
 		CryptoNumber a = getA(hash);
-		BitArray subHash = hash.getBits(b/2, b);
+		BitArray subHash = hash.getBits(b, b*2);
 		subHash.append(m);
 		CryptoNumber r = curve.hint(subHash);
 		BigPoint R = curve.scalarmult(r);
